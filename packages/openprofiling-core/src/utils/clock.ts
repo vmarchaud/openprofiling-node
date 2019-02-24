@@ -14,64 +14,62 @@
  * limitations under the License.
  */
 
-
 /**
  * The Clock class is used to record the duration and endTime for spans.
  */
 export class Clock {
   /** Indicates if the clock is endend. */
-  private endedLocal = false;
+  private endedLocal = false
   /** Indicates the clock's start time. */
-  private startTimeLocal: Date;
+  private startTimeLocal: Date
   /** The time in high resolution in a [seconds, nanoseconds]. */
-  private hrtimeLocal: [number, number];
+  private hrtimeLocal: [number, number]
   /** The duration between start and end of the clock. */
-  private diff: [number, number] = null;
+  private diff: [number, number]
 
   /** Constructs a new SamplerImpl instance. */
-  constructor() {
-    this.startTimeLocal = new Date();
-    this.hrtimeLocal = process.hrtime();
+  constructor () {
+    this.startTimeLocal = new Date()
+    this.hrtimeLocal = process.hrtime()
   }
 
   /** Ends the clock. */
-  end(): void {
-    if (this.endedLocal) {
-      return;
-    }
-    this.diff = process.hrtime(this.hrtimeLocal);
-    this.endedLocal = true;
+  end (): void {
+    if (this.endedLocal) return
+    this.diff = process.hrtime(this.hrtimeLocal)
+    this.endedLocal = true
   }
 
   /** Gets the duration of the clock. */
-  get duration(): number {
+  get duration (): number {
     if (!this.endedLocal) {
-      return null;
+      return -1
     }
-    const ns = this.diff[0] * 1e9 + this.diff[1];
-    return ns / 1e6;
+    const ns = this.diff[0] * 1e9 + this.diff[1]
+    return ns / 1e6
   }
 
-
   /** Starts the clock. */
-  get startTime(): Date {
-    return this.startTimeLocal;
+  get startTime (): Date {
+    return this.startTimeLocal
   }
 
   /**
    * Gets the time so far.
    * @returns A Date object with the current duration.
    */
-  get endTime(): Date {
-    let result: Date = null;
+  get endTime (): Date {
+    let result: Date
     if (this.ended) {
-      result = new Date(this.startTime.getTime() + this.duration);
+      result = new Date(this.startTime.getTime() + this.duration)
+    } else {
+      result = new Date(0)
     }
-    return result;
+    return result
   }
 
   /** Indicates if the clock was ended. */
-  get ended(): boolean {
-    return this.endedLocal;
+  get ended (): boolean {
+    return this.endedLocal
   }
 }

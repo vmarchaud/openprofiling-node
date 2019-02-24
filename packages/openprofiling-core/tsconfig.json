@@ -1,19 +1,29 @@
 {
-  "extends": "./node_modules/gts/tsconfig-google.json",
   "compilerOptions": {
-    "rootDir": ".",
-    "outDir": "build",
-    "pretty": true,
-    "module": "commonjs",
     "target": "es6",
-    "strictNullChecks": false,
-    "noUnusedLocals": true
+    "outDir": "build/src",
+    "rootDirs": ["src"],
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "declaration": true,
+    "importHelpers": true,
+    "inlineSourceMap": true,
+    "strictNullChecks": true,
+    "traceResolution": false,
+    "downlevelIteration": true,
+    "resolveJsonModule": true,
+    "removeComments": true,
+    "types": [
+      "node",
+      "mocha"
+    ]
   },
   "include": [
-    "src/**/*.ts",
-    "test/**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
-  ]
+    "node_modules/**",
+    "test/**/*.ts"
+  ],
+  "compileOnSave": false
 }

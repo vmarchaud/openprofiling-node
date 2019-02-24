@@ -14,40 +14,42 @@
  * limitations under the License.
  */
 
-import * as util from 'util';
-import * as types from './types';
+import * as util from 'util'
+import * as types from './types'
 
-const logDriver = require('log-driver');
+const logDriver = require('log-driver')
 
 /**
  * This class implements a console logger.
  */
 export class ConsoleLogger implements types.Logger {
-  private logger: typeof logDriver;
-  static LEVELS = ['silent', 'error', 'warn', 'info', 'debug'];
-  level: string;
+  private logger: typeof logDriver
+  static LEVELS = ['silent', 'error', 'warn', 'info', 'debug']
+  level: string
 
   /**
    * Constructs a new ConsoleLogger instance
    * @param options A logger configuration object.
    */
-  constructor(options?: types.LoggerOptions|string|number) {
-    let opt: types.LoggerOptions = {};
+  constructor (options?: types.LoggerOptions | string | number) {
+    let opt: types.LoggerOptions = {}
     if (typeof options === 'number') {
       if (options < 0) {
-        options = 0;
+        options = 0
       } else if (options > ConsoleLogger.LEVELS.length) {
-        options = ConsoleLogger.LEVELS.length - 1;
+        options = ConsoleLogger.LEVELS.length - 1
       }
-      opt = {level: ConsoleLogger.LEVELS[options]};
+      opt = { level: ConsoleLogger.LEVELS[options] }
     } else if (typeof options === 'string') {
-      opt = {level: options};
+      opt = { level: options }
     } else {
-      opt = options || {};
+      opt = options || {}
     }
-    this.level = opt.level;
-    this.logger =
-        logDriver({levels: ConsoleLogger.LEVELS, level: opt.level || 'silent'});
+    this.level = opt.level || 'error'
+    this.logger = logDriver({
+      levels: ConsoleLogger.LEVELS,
+      level: opt.level || 'silent'
+    })
   }
 
   /**
@@ -56,8 +58,8 @@ export class ConsoleLogger implements types.Logger {
    * @param args arguments to log in console
    */
   // tslint:disable-next-line:no-any
-  error(message: any, ...args: any[]): void {
-    this.logger.error(util.format(message, ...args));
+  error (message: any, ...args: any[]): void {
+    this.logger.error(util.format(message, ...args))
   }
 
   /**
@@ -66,8 +68,8 @@ export class ConsoleLogger implements types.Logger {
    * @param args arguments to log in console
    */
   // tslint:disable-next-line:no-any
-  warn(message: any, ...args: any[]): void {
-    this.logger.warn(util.format(message, ...args));
+  warn (message: any, ...args: any[]): void {
+    this.logger.warn(util.format(message, ...args))
   }
 
   /**
@@ -76,8 +78,8 @@ export class ConsoleLogger implements types.Logger {
    * @param args arguments to log in console
    */
   // tslint:disable-next-line:no-any
-  info(message: any, ...args: any[]): void {
-    this.logger.info(util.format(message, ...args));
+  info (message: any, ...args: any[]): void {
+    this.logger.info(util.format(message, ...args))
   }
 
   /**
@@ -86,8 +88,8 @@ export class ConsoleLogger implements types.Logger {
    * @param args arguments to log in console
    */
   // tslint:disable-next-line:no-any
-  debug(message: any, ...args: any[]): void {
-    this.logger.debug(util.format(message, ...args));
+  debug (message: any, ...args: any[]): void {
+    this.logger.debug(util.format(message, ...args))
   }
 }
 
@@ -96,8 +98,8 @@ export class ConsoleLogger implements types.Logger {
  * https://github.com/cainus/logdriver/blob/bba1761737ca72f04d6b445629848538d038484a/index.js#L50
  * @param options A logger options or strig to logger in console
  */
-const logger = (options?: types.LoggerOptions|string|number): types.Logger => {
-  return new ConsoleLogger(options);
-};
+const logger = (options?: types.LoggerOptions | string | number): types.Logger => {
+  return new ConsoleLogger(options)
+}
 
-export {logger};
+export { logger }

@@ -8,18 +8,18 @@ export interface Profiler extends TriggerEventListener {
    * @param tracer a agent instance
    * @param options plugin options
    */
-  enable(tracer: Agent, options: ProfilerConfig): any
+  enable (tracer: Agent, options: ProfilerConfig): any
   /** Method to disable the profiler */
-  disable(): void
+  disable (): void
 }
 
 export type ProfilerConfig = {
   [key: string]: any
-};
+}
 
 export type NamedProfilerConfig = {
   module: string; config: ProfilerConfig
-};
+}
 
 /**
  * Type ProfilerNames: each key should be the name of the profiler,
@@ -28,4 +28,4 @@ export type NamedProfilerConfig = {
  */
 export type ProfilerNames = {
   [profilerName: string]: string | NamedProfilerConfig
-};
+}

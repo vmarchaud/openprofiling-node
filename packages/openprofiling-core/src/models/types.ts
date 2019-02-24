@@ -1,8 +1,5 @@
 
-import { Config, Reactions } from './config'
-import { Exporter } from '../exporters/types'
-import { Trigger } from '../triggers/types'
-import { Profiler } from '../profilers/types'
+import { Config } from './config'
 
 export enum ProfileType {
   HEAP_PROFILE = 'HEAP_PROFILE',
@@ -15,8 +12,8 @@ export enum ProfileStatus {
 }
 
 export interface ProfileListener {
-  onProfileStart(profile: Profile): void;
-  onProfileEnd(profile: Profile): void;
+  onProfileStart (profile: Profile): void
+  onProfileEnd (profile: Profile): void
 }
 
 /** Maps a label to a string, number or boolean. */
@@ -73,7 +70,7 @@ export interface Profile {
    * @param key Describes the value added.
    * @param value The result of an operation.
    */
-  addAttribute(key: string, value: string|number|boolean): void;
+  addAttribute (key: string, value: string | number | boolean): void
 
   /**
    * Adds raw data to a profile
@@ -82,46 +79,44 @@ export interface Profile {
   addProfileData (data: Buffer): void
 
   /** Ends a profile. */
-  end(): void;
+  end (): void
 }
 
 export interface Agent {
-  
-  /** Service to send collected profiles to. */
-  readonly exporter: Exporter
-
-  /** List of triggers that can launch a profile */
-  readonly triggers: Trigger[]
-
-  /** List of profilers */
-  readonly profilers: Profiler[]
-
-  /** List of reactions */
-  readonly reactions: Reactions
-
   /** Gets active status  */
-  active: boolean;
+  active: boolean
 
   /**
    * Starts agent.
    * @param userConfig A configuration object to start the agent.
    * @returns The profile agent object.
    */
-  start(userConfig?: Config): Agent
+  start (userConfig?: Config): ThisType<Agent>
 
   /** Stops agent. */
-  stop(): void
+  stop (): ThisType<Agent>
 
   /**
-   * Registers an exporter to send the collected traces to.
-   * @param exporter The exporter to send the profiles to.
-   * @returns The profile agent object.
+   * Registers an end span event listener.
+   * @param listener The listener to register.
    */
-  registerExporter(exporter: Exporter): Agent
+  registerProfileListener (listener: ProfileListener): ThisType<Agent>
 
   /**
-   * Unregisters an exporter.
-   * @param exporter The exporter to stop sending profiles to.
+   * Unregisters an end span event listener.
+   * @param listener The listener to unregister.
    */
-  unregisterExporter(exporter: Exporter): Agent
+  unregisterProfileListener (listener: ProfileListener): ThisType<Agent>
+
+  /**
+   * Notify profile listener that a new profile has been created
+   * @param profile a profile to broadcast to exporters
+   */
+  notifyStartProfile (profile: Profile): ThisType<Agent>
+
+  /**
+   * Notify profile listener that a profile has been completed
+   * @param profile a profile to broadcast to exporters
+   */
+  notifyEndProfile (profile: Profile): ThisType<Agent>
 }

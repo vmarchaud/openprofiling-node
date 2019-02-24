@@ -1,17 +1,16 @@
-import { Agent } from "../models/types"
+import { Agent } from '../models/types'
 
 export interface Trigger {
   /** Name of the trigger */
   name: string
- /**
+  /**
    * Method to enable the trigger
-   *
    * @param tracer a agent instance
    * @param options plugin options
    */
-  enable(tracer: Agent, options: TriggerConfig): any
+  enable (tracer: Agent, options: TriggerConfig): any
   /** Method to disable the trigger */
-  disable(): void
+  disable (): void
 }
 
 export enum TriggerState {
@@ -29,7 +28,7 @@ export type NamedTriggerConfig = {
 
 /** Called when a trigger fires a change in the state */
 export interface TriggerEventListener {
-  onTrigger(trigger: Trigger, state: TriggerState): void
+  onTrigger (trigger: Trigger, state: TriggerState): void
 }
 
 /**

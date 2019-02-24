@@ -17,19 +17,19 @@
 // Code snippets from Stackdriver Trace Agent
 // https://github.com/GoogleCloudPlatform/cloud-trace-nodejs
 
-import * as crypto from 'crypto';
+import * as crypto from 'crypto'
 
-const SPAN_ID_RANDOM_BYTES = 8;
+const SPAN_ID_RANDOM_BYTES = 8
 
 // Use the faster crypto.randomFillSync when available (Node 7+) falling back to
 // using crypto.randomBytes.
-const spanIdBuffer = Buffer.alloc(SPAN_ID_RANDOM_BYTES);
-const randomFillSync = crypto.randomFillSync;
-const randomBytes = crypto.randomBytes;
+const spanIdBuffer = Buffer.alloc(SPAN_ID_RANDOM_BYTES)
+const randomFillSync = crypto.randomFillSync
+const randomBytes = crypto.randomBytes
 const spanRandomBuffer = randomFillSync ?
     () => randomFillSync(spanIdBuffer) :
-    () => randomBytes(SPAN_ID_RANDOM_BYTES);
+    () => randomBytes(SPAN_ID_RANDOM_BYTES)
 
-export function randomSpanId() {
-  return spanRandomBuffer().toString('hex');
+export function randomSpanId () {
+  return spanRandomBuffer().toString('hex')
 }

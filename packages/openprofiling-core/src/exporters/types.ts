@@ -1,7 +1,5 @@
 
-import { ProfileListener } from "../models/types"
+import { ProfileListener } from '../models/types'
 
 /** Defines a exporter interface. */
-export interface Exporter extends ProfileListener {
-  
-}
+export interface Exporter extends ProfileListener { }
