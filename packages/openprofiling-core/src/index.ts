@@ -5,6 +5,7 @@ export * from './triggers/types'
 
 export * from './models/config'
 export * from './models/profile'
+export * from './models/agent'
 
 export * from './utils/version'
 
