@@ -15,7 +15,7 @@ import {
   Attributes
 } from './models/types'
 
-import * as logger from './common/console-logger';
+import * as logger from './common/console-logger'
 
 export {
   ProfileStatus,
