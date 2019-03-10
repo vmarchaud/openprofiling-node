@@ -1,6 +1,6 @@
 'use strict'
 
-import { Exporter, Profile } from '../../openprofiling-core'
+import { Exporter, Profile } from '@openprofiling/core'
 import * as fs from 'fs'
 import { tmpdir } from 'os'
 import { resolve } from 'path'

@@ -1,9 +1,9 @@
 
-import { Profiler, Trigger, TriggerState, ProfilerConfig, CoreAgent, Profile, ProfileType, ProfileStatus } from '../../openprofiling-core'
+import { Profiler, Trigger, TriggerState, ProfilerConfig, CoreAgent, Profile, ProfileType, ProfileStatus } from '@openprofiling/core'
 import * as inspector from 'inspector'
 
 export class InspectorCPUProfilerOptions implements ProfilerConfig {
-  session: inspector.Session
+  session?: inspector.Session
 }
 
 export class InspectorCPUProfiler implements Profiler {
@@ -13,25 +13,27 @@ export class InspectorCPUProfiler implements Profiler {
   private currentProfile: Profile | undefined
   private tracer: CoreAgent
   private PROFILER_NAME: string = 'inspector-cpu'
+  private options: InspectorCPUProfilerOptions = {}
 
-  enable (tracer: CoreAgent, options: InspectorCPUProfilerOptions) {
+  constructor (options: InspectorCPUProfilerOptions) {
+    this.options = options
+  }
+  enable (tracer: CoreAgent) {
     this.tracer = tracer
-
-    // tslint:disable-next-line
-    if (typeof options.session === 'object') {
-      this.session = options.session
+    if (typeof this.options.session === 'object') {
+      this.session = this.options.session
       // try to connect the session if not already the case
       try {
         this.session.connect()
       } catch (err) {
-        tracer.logger.debug('failed to connect to given session', err.message)
+        this.tracer.logger.debug('failed to connect to given session', err.message)
       }
     } else {
       this.session = new inspector.Session()
       try {
         this.session.connect()
       } catch (err) {
-        tracer.logger.error('Could not connect to inspector', err.message)
+        this.tracer.logger.error('Could not connect to inspector', err.message)
         return
       }
     }
@@ -61,7 +63,7 @@ export class InspectorCPUProfiler implements Profiler {
     }
 
     if (state === TriggerState.START) {
-      this.tracer.logger.info(`Starting profiling from trigger ${trigger.name}`)
+      this.tracer.logger.info(`Starting profiling`)
       this.currentProfile = new Profile('toto', ProfileType.CPU_PROFILE)
       this.started = true
       this.session.post('Profiler.start')
@@ -69,7 +71,7 @@ export class InspectorCPUProfiler implements Profiler {
     }
 
     if (state === TriggerState.END) {
-      this.tracer.logger.info(`Stopping profiling from trigger ${trigger.name}`)
+      this.tracer.logger.info(`Stopping profiling`)
       this.stopProfiling()
     }
   }

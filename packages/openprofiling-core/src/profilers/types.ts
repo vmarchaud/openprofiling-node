@@ -1,14 +1,15 @@
 import { Agent } from '../models/types'
 import { TriggerEventListener } from '../triggers/types'
 
-export interface Profiler extends TriggerEventListener {
+export declare class Profiler extends TriggerEventListener {
+
+  constructor (options: ProfilerConfig)
   /**
    * Method to enable the profiler
    *
    * @param tracer a agent instance
-   * @param options plugin options
    */
-  enable (tracer: Agent, options: ProfilerConfig): any
+  enable (tracer: Agent): any
   /** Method to disable the profiler */
   disable (): void
 }
