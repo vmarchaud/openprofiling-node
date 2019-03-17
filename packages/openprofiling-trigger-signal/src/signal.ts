@@ -1,32 +1,31 @@
 'use strict'
 
-import { Trigger, TriggerConfig, CoreAgent, TriggerState } from '@openprofiling/core'
+import { BaseTrigger, TriggerOptions, TriggerState } from '@openprofiling/core'
 
-export interface TriggerSignalConfig extends TriggerConfig {
+export interface TriggerSignalConfig extends TriggerOptions {
   signal: NodeJS.Signals
 }
 
-export class TriggerSignal implements Trigger {
+export class TriggerSignal extends BaseTrigger {
 
   private isProfiling: boolean = false
   private handler: () => void
-  private options: TriggerSignalConfig
-  private agent: CoreAgent
+
+  protected options: TriggerSignalConfig
 
   constructor (options: TriggerSignalConfig) {
+    super(`signal-${options.signal.toLowerCase()}`, options)
     if (typeof options.signal !== 'string') {
       throw new Error(`You must define the 'signal' to which the trigger will respond`)
     }
-    this.options = options
   }
 
-  enable (agent: CoreAgent) {
+  init () {
     this.handler = this.onSignal.bind(this)
-    this.agent = agent
     process.on(this.options.signal, this.handler)
   }
 
-  disable () {
+  destroy () {
     process.removeListener(this.options.signal, this.handler)
   }
 

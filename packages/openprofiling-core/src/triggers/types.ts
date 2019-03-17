@@ -1,14 +1,11 @@
 import { Agent } from '../models/types'
 
-export declare class Trigger {
-
-  constructor (options: TriggerConfig)
-
+export interface Trigger {
   /**
    * Method to enable the trigger
-   * @param tracer a agent instance
+   * @param agent a agent instance
    */
-  enable (tracer: Agent): any
+  enable (agent: Agent): void
   /** Method to disable the trigger */
   disable (): void
 }
@@ -18,11 +15,11 @@ export enum TriggerState {
   END = 0
 }
 
-export type TriggerConfig = {
-  [key: string]: any;
+export type TriggerOptions = {
+  [key: string]: string | number | number;
 }
 
 /** Called when a trigger fires a change in the state */
-export declare class TriggerEventListener {
+export interface TriggerEventListener {
   onTrigger (trigger: Trigger, state: TriggerState): void
 }

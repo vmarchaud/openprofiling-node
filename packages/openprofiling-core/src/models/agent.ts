@@ -31,7 +31,7 @@ export class CoreAgent implements types.Agent, TriggerEventListener {
     this.activeLocal = true
     this.config = config
     this.reactions = config.reactions
-    this.logger = this.config.logger || logger.logger()
+    this.logger = this.config.logger || logger.logger(config.logLevel || 0)
     return this
   }
 

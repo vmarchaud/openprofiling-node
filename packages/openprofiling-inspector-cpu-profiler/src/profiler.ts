@@ -1,48 +1,45 @@
 
-import { Profiler, Trigger, TriggerState, ProfilerConfig, CoreAgent, Profile, ProfileType, ProfileStatus } from '@openprofiling/core'
+import { BaseProfiler, Trigger, TriggerState, ProfilerOptions, CoreAgent, Profile, ProfileType, ProfileStatus } from '@openprofiling/core'
 import * as inspector from 'inspector'
 
-export class InspectorCPUProfilerOptions implements ProfilerConfig {
+export class InspectorCPUProfilerOptions implements ProfilerOptions {
   session?: inspector.Session
 }
 
-export class InspectorCPUProfiler implements Profiler {
+export class InspectorCPUProfiler extends BaseProfiler {
 
   private session: inspector.Session | undefined
   private started: boolean = false
   private currentProfile: Profile | undefined
-  private tracer: CoreAgent
-  private PROFILER_NAME: string = 'inspector-cpu'
-  private options: InspectorCPUProfilerOptions = {}
 
-  constructor (options: InspectorCPUProfilerOptions) {
-    this.options = options
+  protected options: InspectorCPUProfilerOptions
+
+  constructor (options?: InspectorCPUProfilerOptions) {
+    super('inspector-cpu', options)
   }
-  enable (tracer: CoreAgent) {
-    this.tracer = tracer
+
+  init () {
     if (typeof this.options.session === 'object') {
       this.session = this.options.session
       // try to connect the session if not already the case
       try {
         this.session.connect()
       } catch (err) {
-        this.tracer.logger.debug('failed to connect to given session', err.message)
+        this.logger.debug('failed to connect to given session', err.message)
       }
     } else {
       this.session = new inspector.Session()
       try {
         this.session.connect()
       } catch (err) {
-        this.tracer.logger.error('Could not connect to inspector', err.message)
+        this.logger.error('Could not connect to inspector', err.message)
         return
       }
     }
-    this.tracer.logger.debug('enabling inspector based cpu profiler')
     this.session.post('Profiler.enable')
   }
 
-  disable () {
-    this.tracer.logger.debug('disabling inspector based cpu profiler')
+  destroy () {
     if (this.session === undefined) return
 
     if (this.started === true) {
@@ -56,22 +53,25 @@ export class InspectorCPUProfiler implements Profiler {
       throw new Error(`Session wasn't initialized`)
     }
     if (state === TriggerState.START && this.started === true) {
-      return this.tracer.logger.info('Received start trigger but already started, ignoring')
+      this.logger.info('Received start trigger but already started, ignoring')
+      return
     }
     if (state === TriggerState.END && this.started === false) {
-      return this.tracer.logger.error('Received end trigger but wasnt started, ignoring')
+      this.logger.error('Received end trigger but wasnt started, ignoring')
+      return
     }
 
     if (state === TriggerState.START) {
-      this.tracer.logger.info(`Starting profiling`)
+      this.logger.info(`Starting profiling`)
       this.currentProfile = new Profile('toto', ProfileType.CPU_PROFILE)
       this.started = true
       this.session.post('Profiler.start')
-      return this.tracer.notifyStartProfile(this.currentProfile)
+      this.agent.notifyStartProfile(this.currentProfile)
+      return
     }
 
     if (state === TriggerState.END) {
-      this.tracer.logger.info(`Stopping profiling`)
+      this.logger.info(`Stopping profiling`)
       this.stopProfiling()
     }
   }
@@ -83,17 +83,17 @@ export class InspectorCPUProfiler implements Profiler {
     this.session.post('Profiler.stop', (err, params) => {
       if (this.currentProfile === undefined) return
       if (err) {
-        this.tracer.logger.error(`Failed to stop cpu profiler`, err.message)
+        this.logger.error(`Failed to stop cpu profiler`, err.message)
         this.currentProfile.status = ProfileStatus.FAILED
         this.currentProfile.addAttribute('error', err.message)
       } else {
         const data = JSON.stringify(params.profile)
         this.currentProfile.addProfileData(Buffer.from(data))
         this.currentProfile.status = ProfileStatus.SUCCESS
-        this.currentProfile.addAttribute('profiler', this.PROFILER_NAME)
+        this.currentProfile.addAttribute('profiler', this.name)
       }
 
-      this.tracer.notifyEndProfile(this.currentProfile)
+      this.agent.notifyEndProfile(this.currentProfile)
       this.started = false
       this.currentProfile = undefined
     })
