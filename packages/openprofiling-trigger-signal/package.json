@@ -1,12 +1,11 @@
 {
   "name": "@openprofiling/trigger-signal",
   "version": "0.0.1",
-  "main": "build/src/index.js",
-  "types": "build/src/index.d.ts",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "repository": "openprofiling/openprofiling-node",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "build:module": "tsc -p config/exports/tsconfig.module.json",
     "lint": "tslint --project . src/**/*.ts",
     "unit": "yarn build && mocha  --exit -r ts-node/register ./test/*.spec.ts ./test/**/*.spec.ts",
     "mono": "mocha  --exit --require ts-node/register",
@@ -58,5 +57,8 @@
     "tslint": "^5.13.0",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "@openprofiling/core": "^0.0.1"
   }
 }

@@ -16,7 +16,7 @@ export class CoreAgent implements types.Agent, TriggerEventListener {
   /** A list of end span event listeners */
   private reactions: Reaction[] = []
   /** A configuration for starting the tracer */
-  logger: loggerTypes.Logger = logger.logger()
+  logger: loggerTypes.Logger = logger.logger(4)
 
   /** Constructs a new CoreAgent instance. */
   constructor () {
@@ -31,7 +31,7 @@ export class CoreAgent implements types.Agent, TriggerEventListener {
     this.activeLocal = true
     this.config = config
     this.reactions = config.reactions
-    this.logger = this.config.logger || logger.logger(config.logLevel || 0)
+    this.logger = this.config.logger || logger.logger(config.logLevel || 1)
     return this
   }
 
@@ -84,7 +84,7 @@ export class CoreAgent implements types.Agent, TriggerEventListener {
    * @param profile a profile to broadcast to exporters
    */
   notifyStartProfile (profile: types.Profile) {
-    this.logger.debug('starting to notify listeners the start of')
+    this.logger.debug(`starting to notify listeners the start of ${profile.kind}`)
     if (this.listeners && this.listeners.length > 0) {
       for (const listener of this.listeners) {
         listener.onProfileStart(profile)

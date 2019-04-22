@@ -1,8 +1,8 @@
 {
-  "name": "@openprofiling/core",
+  "name": "@openprofiling/inspector-cpu-profiler",
   "version": "0.0.1",
-  "main": "build/src/index.js",
-  "types": "build/src/index.d.ts",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "repository": "openprofiling/openprofiling-node",
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -60,6 +60,6 @@
     "typescript": "^3.3.3"
   },
   "dependencies": {
-    "log-driver": "^1.2.7"
+    "@openprofiling/core": "^0.0.1"
   }
 }

@@ -1,22 +1,14 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "outDir": "build/src",
+    "outDir": "build",
     "rootDirs": ["src"],
     "moduleResolution": "node",
     "module": "commonjs",
     "declaration": true,
-    "importHelpers": true,
     "inlineSourceMap": true,
     "strictNullChecks": true,
-    "traceResolution": false,
-    "downlevelIteration": true,
-    "resolveJsonModule": true,
-    "removeComments": true,
-    "types": [
-      "node",
-      "mocha"
-    ]
+    "resolveJsonModule": true
   },
   "include": [
     "src/**/*.ts"

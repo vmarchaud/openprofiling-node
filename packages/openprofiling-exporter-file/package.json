@@ -1,8 +1,8 @@
 {
   "name": "@openprofiling/exporter-file",
   "version": "0.0.1",
-  "main": "build/src/index.js",
-  "types": "build/src/index.d.ts",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "repository": "openprofiling/openprofiling-node",
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -58,5 +58,8 @@
     "tslint": "^5.13.0",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "@openprofiling/core": "^0.0.1"
   }
 }

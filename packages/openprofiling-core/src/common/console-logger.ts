@@ -30,10 +30,7 @@ export class ConsoleLogger implements types.Logger {
       opt = options || {}
     }
     this.level = opt.level || 'error'
-    this.logger = logDriver({
-      levels: ConsoleLogger.LEVELS,
-      level: opt.level || 'silent'
-    })
+    this.logger = console
   }
 
   /**
@@ -63,7 +60,7 @@ export class ConsoleLogger implements types.Logger {
    */
   // tslint:disable-next-line:no-any
   info (message: any, ...args: any[]): void {
-    this.logger.info(util.format(message, ...args))
+    this.logger.log(util.format(message, ...args))
   }
 
   /**
@@ -73,7 +70,7 @@ export class ConsoleLogger implements types.Logger {
    */
   // tslint:disable-next-line:no-any
   debug (message: any, ...args: any[]): void {
-    this.logger.debug(util.format(message, ...args))
+    this.logger.log(util.format(message, ...args))
   }
 }
 

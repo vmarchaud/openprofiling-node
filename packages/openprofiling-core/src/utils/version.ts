@@ -22,7 +22,7 @@ type Package = {
 // Load the package details. Note that the `require` is performed at runtime,
 // which means the source files will be in the `/build` directory, so the
 // package path is relative to that location.
-const pjson: Package = require('../../../package.json')
+const pjson: Package = require('../../package.json')
 
 // Export the core package version
 export const version: string = pjson.version

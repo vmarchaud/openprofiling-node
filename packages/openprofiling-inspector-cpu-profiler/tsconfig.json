@@ -1,28 +1,14 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "outDir": "build/src",
+    "outDir": "build",
     "rootDirs": ["src"],
     "moduleResolution": "node",
     "module": "commonjs",
     "declaration": true,
-    "importHelpers": true,
     "inlineSourceMap": true,
     "strictNullChecks": true,
-    "traceResolution": false,
-    "downlevelIteration": true,
-    "resolveJsonModule": true,
-    "removeComments": true,
-    "lib": [
-      "es2016"
-    ]
+    "resolveJsonModule": true
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules/**",
-    "test/**/*.ts"
-  ],
   "compileOnSave": false
 }

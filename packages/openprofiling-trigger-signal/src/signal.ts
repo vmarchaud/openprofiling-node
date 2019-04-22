@@ -32,8 +32,10 @@ export class TriggerSignal extends BaseTrigger {
   onSignal () {
     if (this.isProfiling) {
       this.agent.onTrigger(this, TriggerState.END)
+      this.isProfiling = false
     } else {
       this.agent.onTrigger(this, TriggerState.START)
+      this.isProfiling = true
     }
   }
 
