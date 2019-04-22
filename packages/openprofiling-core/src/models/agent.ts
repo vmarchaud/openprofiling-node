@@ -5,6 +5,7 @@ import { Config, Reaction } from './config'
 import * as loggerTypes from '../common/types'
 import * as logger from '../common/console-logger'
 import { Trigger, TriggerState, TriggerEventListener } from '../triggers/types'
+import { Exporter } from '../exporters/types'
 
 export class CoreAgent implements types.Agent, TriggerEventListener {
   /** Indicates if the tracer is active */
@@ -32,10 +33,10 @@ export class CoreAgent implements types.Agent, TriggerEventListener {
     this.config = config
     this.reactions = config.reactions
     this.logger = this.config.logger || logger.logger(config.logLevel || 1)
+    this.listeners = []
     return this
   }
 
-  /** Stops the tracer. */
   stop (): CoreAgent {
     this.activeLocal = false
     return this
@@ -51,26 +52,17 @@ export class CoreAgent implements types.Agent, TriggerEventListener {
     return this.activeLocal
   }
 
-  /** Called when a trigger need to propagate an action to a profiler */
   onTrigger (trigger: Trigger, state: TriggerState): void {
     const reactions = this.reactions.find(reaction => reaction.trigger === trigger)
     if (reactions === undefined) return
     reactions.profiler.onTrigger(trigger, state)
   }
 
-  /**
-   * Registers an end span event listener.
-   * @param listener The listener to register.
-   */
   registerProfileListener (listener: types.ProfileListener) {
     this.listeners.push(listener)
     return this
   }
 
-  /**
-   * Unregisters an end span event listener.
-   * @param listener The listener to unregister.
-   */
   unregisterProfileListener (listener: types.ProfileListener) {
     const index = this.listeners.indexOf(listener, 0)
     if (index > -1) {
@@ -79,10 +71,6 @@ export class CoreAgent implements types.Agent, TriggerEventListener {
     return this
   }
 
-  /**
-   * Notify profile listener that a new profile has been created
-   * @param profile a profile to broadcast to exporters
-   */
   notifyStartProfile (profile: types.Profile) {
     this.logger.debug(`starting to notify listeners the start of ${profile.kind}`)
     if (this.listeners && this.listeners.length > 0) {
@@ -93,10 +81,6 @@ export class CoreAgent implements types.Agent, TriggerEventListener {
     return this
   }
 
-  /**
-   * Notify profile listener that a profile has been completed
-   * @param profile a profile to broadcast to exporters
-   */
   notifyEndProfile (profile: types.Profile) {
     if (this.active) {
       this.logger.debug('starting to notify listeners the end of rootspans')

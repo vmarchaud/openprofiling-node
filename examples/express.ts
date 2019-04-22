@@ -5,9 +5,9 @@ import { InspectorCPUProfiler } from '../packages/openprofiling-inspector-cpu-pr
 import { TriggerSignal } from '../packages/openprofiling-trigger-signal'
 
 const profilingAgent = new ProfilingAgent()
-profilingAgent.register(new TriggerSignal({ signal: 'SIGUSR1' }), new InspectorCPUProfiler({}))
+profilingAgent.register(new TriggerSignal({ signal: 'SIGUSR2' }), new InspectorCPUProfiler({}))
 profilingAgent.start({ exporter: new FileExporter(), logLevel: 4 })
 
 setInterval(_ => {
-  console.log('run')
+  console.log(process.pid)
 }, 1000)

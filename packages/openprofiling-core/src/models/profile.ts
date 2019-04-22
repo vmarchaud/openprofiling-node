@@ -22,6 +22,8 @@ export class Profile implements types.Profile {
     this.name = name
     this.kind = kind
     this.clock = new Clock()
+    this.attributes = {}
+    this.status = types.ProfileStatus.UNKNOWN
   }
 
   addAttribute (key: string, value: string | number | boolean) {

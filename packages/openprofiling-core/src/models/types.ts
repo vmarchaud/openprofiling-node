@@ -1,5 +1,6 @@
 
 import { Config } from './config'
+import { Exporter } from '../exporters/types'
 
 export enum ProfileType {
   HEAP_PROFILE = 'HEAP_PROFILE',
@@ -7,8 +8,9 @@ export enum ProfileType {
 }
 
 export enum ProfileStatus {
+  UNKNOWN = 0,
   SUCCESS = 1,
-  FAILED = 0
+  FAILED = 2
 }
 
 export interface ProfileListener {

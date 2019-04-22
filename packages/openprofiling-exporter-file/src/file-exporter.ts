@@ -33,6 +33,8 @@ export class FileExporter implements Exporter {
     fs.writeFile(targetPath, profile.data, (err) => {
       if (err) {
         console.error(`Error while writing profile to disk`, err.message)
+      } else {
+        console.log(`File written to ${filename}`)
       }
     })
   }
