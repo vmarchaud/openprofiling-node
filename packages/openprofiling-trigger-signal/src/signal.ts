@@ -2,22 +2,19 @@
 
 import { BaseTrigger, TriggerOptions, TriggerState } from '@openprofiling/core'
 
-export interface TriggerSignalConfig extends TriggerOptions {
+export interface SignalTriggerOptions extends TriggerOptions {
   signal: NodeJS.Signals
 }
 
-export class TriggerSignal extends BaseTrigger {
+export class SignalTrigger extends BaseTrigger {
 
   private isProfiling: boolean = false
   private handler: () => void
 
-  protected options: TriggerSignalConfig
+  protected options: SignalTriggerOptions
 
-  constructor (options: TriggerSignalConfig) {
+  constructor (options: SignalTriggerOptions) {
     super(`signal-${options.signal.toLowerCase()}`, options)
-    if (typeof options.signal !== 'string') {
-      throw new Error(`You must define the 'signal' to which the trigger will respond`)
-    }
   }
 
   init () {
