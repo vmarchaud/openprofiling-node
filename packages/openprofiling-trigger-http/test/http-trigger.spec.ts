@@ -4,8 +4,6 @@ import * as assert from 'assert'
 import * as http from 'http'
 import { CoreAgent, BaseProfiler, TriggerState, Trigger, BaseTrigger } from '@openprofiling/core'
 
-type onTriggerCallback = (trigger: Trigger, state: TriggerState) => {}
-
 class DummyProfiler extends BaseProfiler {
   constructor () {
     super('dummny-profiler')
