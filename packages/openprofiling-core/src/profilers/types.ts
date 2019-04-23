@@ -13,5 +13,5 @@ export interface Profiler extends TriggerEventListener {
 }
 
 export type ProfilerOptions = {
-  [key: string]: any
+  [key: string]: string | number | boolean | undefined
 }
