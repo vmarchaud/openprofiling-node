@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "outDir": "build",
+    "rootDirs": ["src"],
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "declaration": true,
+    "inlineSourceMap": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true
+  },
+  "compileOnSave": false
+}

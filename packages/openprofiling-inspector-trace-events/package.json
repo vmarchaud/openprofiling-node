@@ -1,0 +1,65 @@
+{
+  "name": "@openprofiling/inspector-trace-events",
+  "version": "0.0.1",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "repository": "openprofiling/openprofiling-node",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:module": "tsc -p config/exports/tsconfig.module.json",
+    "lint": "tslint --project . src/**/*.ts",
+    "unit": "yarn build && mocha  --exit -r ts-node/register ./test/*.spec.ts ./test/**/*.spec.ts",
+    "mono": "mocha  --exit --require ts-node/register",
+    "test": "yarn lint && yarn unit",
+    "watch": "tsc -w",
+    "prepublishOnly": "yarn build"
+  },
+  "keywords": [
+    "openprofiling",
+    "nodejs",
+    "tracing",
+    "profiling"
+  ],
+  "author": "Valentin Marchaud",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=10.10.0"
+  },
+  "files": [
+    "build/src/**/*.js",
+    "build/src/**/*.d.ts",
+    "doc",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "build/",
+      "config/",
+      "examples/",
+      "test/"
+    ],
+    "cache": true,
+    "all": true
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^11.9.5",
+    "mocha": "^5.0.4",
+    "nyc": "13.1.0",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.13.0",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "@openprofiling/core": "^0.0.1"
+  }
+}

@@ -4,7 +4,12 @@ import { Config } from './config'
 export enum ProfileType {
   HEAP_PROFILE = 'HEAP_PROFILE',
   CPU_PROFILE = 'CPU_PROFILE',
-  HEAP_SNAPSHOT = 'HEAP_SNAPSHOT'
+  HEAP_SNAPSHOT = 'HEAP_SNAPSHOT',
+  /**
+   * Performance instrumentation and tracing for Android, Linux and Chrome
+   * ref: https://www.perfetto.dev/#/
+   */
+  PERFECTO = 'PERFECTO'
 }
 
 export enum ProfileStatus {
