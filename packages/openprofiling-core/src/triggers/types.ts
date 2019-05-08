@@ -16,7 +16,7 @@ export enum TriggerState {
 }
 
 export type TriggerOptions = {
-  [key: string]: string | number | boolean | undefined;
+  [key: string]: any;
 }
 
 /** Called when a trigger fires a change in the state */

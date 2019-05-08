@@ -2,7 +2,7 @@
 import { BaseProfiler, Trigger, TriggerState, ProfilerOptions, CoreAgent, Profile, ProfileType, ProfileStatus } from '@openprofiling/core'
 import * as inspector from 'inspector'
 
-export class InspectorCPUProfilerOptions implements ProfilerOptions {
+export interface InspectorCPUProfilerOptions extends ProfilerOptions {
   session?: inspector.Session
 }
 

@@ -6,12 +6,9 @@
   "repository": "openprofiling/openprofiling-node",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "build:module": "tsc -p config/exports/tsconfig.module.json",
     "lint": "tslint --project . src/**/*.ts",
-    "unit": "yarn build && mocha  --exit -r ts-node/register ./test/*.spec.ts ./test/**/*.spec.ts",
-    "mono": "mocha  --exit --require ts-node/register",
-    "test": "yarn lint && yarn unit",
-    "watch": "tsc -w",
+    "test": "yarn build && mocha  --exit -r ts-node/register ./test/*.spec.ts ./test/**/*.spec.ts",
+    "ci": "yarn lint && yarn unit",
     "prepublishOnly": "yarn build"
   },
   "keywords": [
