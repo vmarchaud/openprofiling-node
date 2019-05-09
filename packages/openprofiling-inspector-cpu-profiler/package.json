@@ -7,8 +7,10 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "lint": "tslint --project . src/**/*.ts",
-    "test": "yarn build && mocha  --exit -r ts-node/register ./test/*.spec.ts ./test/**/*.spec.ts",
-    "ci": "yarn lint && yarn unit",
+    "test": "mocha -r ts-node/register ./test/*.spec.ts",
+    "test-coverage": "nyc mocha -r ts-node/register test/*.spec.ts",
+    "report-coverage": "nyc report --reporter=json && codecov -f coverage/*.json",
+    "ci": "yarn test-coverage && yarn report-coverage",
     "prepublishOnly": "yarn build"
   },
   "keywords": [
@@ -49,9 +51,9 @@
   "devDependencies": {
     "@types/mocha": "^5.2.5",
     "@types/node": "^11.9.5",
+    "codecov": "^3.4.0",
     "mocha": "^5.0.4",
     "nyc": "13.1.0",
-    "ts-node": "^7.0.1",
     "tslint": "^5.13.0",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^3.3.3"

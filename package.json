@@ -1,17 +1,10 @@
 {
   "name": "@openprofiling/base",
   "version": "0.0.1",
-  "description": "OpenProfiling is a toolkit for collecting runtime profile of your application.",
+  "description": "OpenProfiling is a toolkit for collecting profiling data from production workload safely..",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "repository": "openprofiling/openprofiling-node",
-  "scripts": {
-    "postinstall": "npm run bootstrap",
-    "compile": "lerna run compile",
-    "test": "lerna run test",
-    "bootstrap": "lerna bootstrap",
-    "bump": "lerna publish"
-  },
   "keywords": [
     "openprofiling",
     "nodejs",
@@ -22,20 +15,7 @@
   "engines": {
     "node": ">=6.0"
   },
-  "files": [
-    "build/src/**/*.js",
-    "build/src/**/*.d.ts",
-    "doc",
-    "CHANGELOG.md",
-    "LICENSE",
-    "README.md"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
   "devDependencies": {
-    "@types/node": "^10.12.12",
-    "lerna": "^2.11.0",
-    "typescript": "^3.2.0"
+    "lerna": "2.11.0"
   }
 }

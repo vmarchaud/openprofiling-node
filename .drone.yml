@@ -1,0 +1,134 @@
+kind: pipeline
+name: node6
+
+steps:
+- name: build
+  image: node:6
+  commands:
+  - node -v
+  - yarn -v
+  - uname -r
+  - yarn install
+  - export PATH=$PATH:./node_modules/.bin/
+  - lerna bootstrap --npm-client yarn
+  - lerna run build --npm-client yarn
+  - lerna run test --npm-client yarn
+  environment:
+    NODE_ENV: test
+  when:
+    event:
+    - push
+
+---
+
+kind: pipeline
+name: node8
+
+steps:
+- name: build
+  image: node:8
+  commands:
+  - node -v
+  - yarn -v
+  - uname -r
+  - yarn install
+  - export PATH=$PATH:./node_modules/.bin/
+  - lerna bootstrap --npm-client yarn
+  - lerna run build --npm-client yarn
+  - lerna run test --npm-client yarn
+  environment:
+    NODE_ENV: test
+  when:
+    event:
+    - push
+
+---
+
+kind: pipeline
+name: node10
+
+steps:
+- name: build
+  image: node:10
+  commands:
+  - node -v
+  - yarn -v
+  - uname -r
+  - yarn install
+  - export PATH=$PATH:./node_modules/.bin/
+  - lerna bootstrap --npm-client yarn
+  - lerna run build --npm-client yarn
+  - lerna run ci --npm-client yarn
+  environment:
+    NODE_ENV: test
+    CODECOV_TOKEN:
+      from_secret: coverage_token
+  when:
+    event:
+    - push
+
+---
+
+kind: pipeline
+name: node11
+
+steps:
+- name: build
+  image: node:11
+  commands:
+  - node -v
+  - yarn -v
+  - uname -r
+  - yarn install
+  - export PATH=$PATH:./node_modules/.bin/
+  - lerna bootstrap --npm-client yarn
+  - lerna run build --npm-client yarn
+  - lerna run test --npm-client yarn
+  environment:
+    NODE_ENV: test
+  when:
+    event:
+    - push
+
+---
+
+kind: pipeline
+name: node12
+
+steps:
+- name: build
+  image: node:12
+  commands:
+  - node -v
+  - yarn -v
+  - uname -r
+  - yarn install
+  - export PATH=$PATH:./node_modules/.bin/
+  - lerna bootstrap --npm-client yarn
+  - lerna run build --npm-client yarn
+  - lerna run test --npm-client yarn
+  environment:
+    NODE_ENV: test
+  when:
+    event:
+    - push
+
+---
+
+kind: pipeline
+name: linter
+
+steps:
+- name: build
+  image: node:10
+  commands:
+  - node -v
+  - yarn -v
+  - uname -r
+  - yarn install
+  - export PATH=$PATH:./node_modules/.bin/
+  - lerna bootstrap --npm-client yarn
+  - lerna run lint --npm-client yarn
+  when:
+    event:
+    - push
