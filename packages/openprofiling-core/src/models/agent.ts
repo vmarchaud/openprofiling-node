@@ -5,7 +5,6 @@ import { Config, Reaction } from './config'
 import * as loggerTypes from '../common/types'
 import * as logger from '../common/console-logger'
 import { Trigger, TriggerState, TriggerEventListener } from '../triggers/types'
-import { Exporter } from '../exporters/types'
 
 export class CoreAgent implements types.Agent, TriggerEventListener {
   /** Indicates if the tracer is active */
@@ -17,7 +16,7 @@ export class CoreAgent implements types.Agent, TriggerEventListener {
   /** A list of end span event listeners */
   private reactions: Reaction[] = []
   /** A configuration for starting the tracer */
-  logger: loggerTypes.Logger = logger.logger(4)
+  logger: loggerTypes.Logger = logger.logger(0)
 
   /** Constructs a new CoreAgent instance. */
   constructor () {

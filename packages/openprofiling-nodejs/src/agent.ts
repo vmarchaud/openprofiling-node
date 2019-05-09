@@ -21,6 +21,7 @@ export class ProfilingAgent {
       reaction.profiler.enable(this.agent)
     }
     this.agent.start(Object.assign(options, { reactions: this.reactions }))
+    this._options.exporter.enable(this.agent)
     this.agent.registerProfileListener(options.exporter)
     return this
   }
@@ -31,12 +32,13 @@ export class ProfilingAgent {
   }
 
   stop () {
-    this.agent.unregisterProfileListener(this._options.exporter)
-    this.agent.stop()
     for (let reaction of this.reactions) {
       reaction.trigger.disable()
       reaction.profiler.disable()
     }
+    this.agent.unregisterProfileListener(this._options.exporter)
+    this._options.exporter.disable()
+    this.agent.stop()
   }
 
 }

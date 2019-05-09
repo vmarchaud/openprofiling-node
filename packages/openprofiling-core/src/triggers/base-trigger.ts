@@ -1,6 +1,7 @@
 import { Trigger, TriggerOptions } from './types'
 import { Logger } from '../common/types'
 import { CoreAgent } from '../models/agent'
+import { ConsoleLogger } from '../common/console-logger'
 
 export abstract class BaseTrigger implements Trigger {
 
@@ -15,7 +16,10 @@ export abstract class BaseTrigger implements Trigger {
   }
 
   enable (agent: CoreAgent) {
-    this.logger = agent.logger
+    this.logger = new ConsoleLogger({
+      level: agent.logger.level,
+      namespace: `${this.name}-trigger`
+    })
     this.agent = agent
     this.logger.info(`Enabling trigger '${this.name}'`)
     this.init()

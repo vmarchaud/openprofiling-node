@@ -1,5 +1,6 @@
 
 export * from './exporters/types'
+export * from './exporters/base-exporter'
 export * from './profilers/types'
 export * from './profilers/base-profiler'
 export * from './triggers/types'

@@ -40,6 +40,14 @@ class DummyExporter implements Exporter {
     }
   }
 
+  enable () {
+    return
+  }
+
+  disable () {
+    return
+  }
+
   onProfileEnd (profile) {
     if (typeof this.onEnd === 'function') {
       this.onEnd(profile)

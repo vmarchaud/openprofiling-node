@@ -2,6 +2,7 @@ import { Profiler, ProfilerOptions } from './types'
 import { Logger } from '../common/types'
 import { CoreAgent } from '../models/agent'
 import { Trigger, TriggerState } from '../triggers/types'
+import { ConsoleLogger } from '../common/console-logger'
 
 export abstract class BaseProfiler implements Profiler {
 
@@ -16,8 +17,11 @@ export abstract class BaseProfiler implements Profiler {
   }
 
   enable (agent: CoreAgent) {
-    this.logger = agent.logger
     this.agent = agent
+    this.logger = new ConsoleLogger({
+      level: agent.logger.level,
+      namespace: `${this.name}-profiler`
+    })
     this.logger.info(`Enabling profiler '${this.name}'`)
     this.init()
   }

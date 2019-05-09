@@ -1,15 +1,15 @@
 
 import * as util from 'util'
 import * as types from './types'
-import * as logDriver from 'log-driver'
 
 /**
  * This class implements a console logger.
  */
 export class ConsoleLogger implements types.Logger {
-  private logger: typeof logDriver
+
   static LEVELS = ['silent', 'error', 'warn', 'info', 'debug']
   public level: string
+  private namespace: string = 'core'
 
   /**
    * Constructs a new ConsoleLogger instance
@@ -30,7 +30,9 @@ export class ConsoleLogger implements types.Logger {
       opt = options || {}
     }
     this.level = opt.level || 'error'
-    this.logger = console
+    if (typeof options === 'object' && options.namespace) {
+      this.namespace = options.namespace
+    }
   }
 
   /**
@@ -40,7 +42,8 @@ export class ConsoleLogger implements types.Logger {
    */
   // tslint:disable-next-line:no-any
   error (message: any, ...args: any[]): void {
-    this.logger.error(util.format(message, ...args))
+    if (ConsoleLogger.LEVELS.indexOf(this.level) < 1) return
+    console.log(`${new Date().toISOString()} - ${this.namespace} - ERROR - ${util.format(message, ...args)}`)
   }
 
   /**
@@ -50,7 +53,8 @@ export class ConsoleLogger implements types.Logger {
    */
   // tslint:disable-next-line:no-any
   warn (message: any, ...args: any[]): void {
-    this.logger.warn(util.format(message, ...args))
+    if (ConsoleLogger.LEVELS.indexOf(this.level) < 2) return
+    console.log(`${new Date().toISOString()} - ${this.namespace} - WARN - ${util.format(message, ...args)}`)
   }
 
   /**
@@ -60,7 +64,8 @@ export class ConsoleLogger implements types.Logger {
    */
   // tslint:disable-next-line:no-any
   info (message: any, ...args: any[]): void {
-    this.logger.log(util.format(message, ...args))
+    if (ConsoleLogger.LEVELS.indexOf(this.level) < 3) return
+    console.log(`${new Date().toISOString()} - ${this.namespace} - INFO - ${util.format(message, ...args)}`)
   }
 
   /**
@@ -70,7 +75,8 @@ export class ConsoleLogger implements types.Logger {
    */
   // tslint:disable-next-line:no-any
   debug (message: any, ...args: any[]): void {
-    this.logger.log(util.format(message, ...args))
+    if (ConsoleLogger.LEVELS.indexOf(this.level) < 4) return
+    console.log(`${new Date().toISOString()} - ${this.namespace} - DEBUG - ${util.format(message, ...args)}`)
   }
 }
 

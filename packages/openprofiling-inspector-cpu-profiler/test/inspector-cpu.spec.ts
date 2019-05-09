@@ -45,6 +45,14 @@ class DummyExporter implements Exporter {
       this.onEnd(profile)
     }
   }
+
+  enable () {
+    return
+  }
+
+  disable () {
+    return
+  }
 }
 
 describe('Inspector Heap Profiler', () => {
