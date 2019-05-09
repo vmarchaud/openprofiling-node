@@ -12,9 +12,11 @@ export class ProfilingAgent {
   private agent: CoreAgent = new CoreAgent()
   private reactions: Reaction[] = []
   private _options: AgentConfig
+  private started = false
 
   start (options: AgentConfig): ProfilingAgent {
     this._options = options
+    this.started = true
 
     for (let reaction of this.reactions) {
       reaction.trigger.enable(this.agent)
@@ -27,6 +29,9 @@ export class ProfilingAgent {
   }
 
   register (trigger: Trigger, profiler: Profiler): ProfilingAgent {
+    if (this.started === true) {
+      throw new Error(`You cannot register new link between trigger and profiler when the agent has been started`)
+    }
     this.reactions.push({ trigger, profiler })
     return this
   }
@@ -39,6 +44,11 @@ export class ProfilingAgent {
     this.agent.unregisterProfileListener(this._options.exporter)
     this._options.exporter.disable()
     this.agent.stop()
+    this.started = false
+  }
+
+  isStarted () {
+    return this.started
   }
 
 }
