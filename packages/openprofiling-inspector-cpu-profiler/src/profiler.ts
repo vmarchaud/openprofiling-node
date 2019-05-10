@@ -84,15 +84,13 @@ export class InspectorCPUProfiler extends BaseProfiler {
       if (this.currentProfile === undefined) return
       if (err) {
         this.logger.error(`Failed to stop cpu profiler`, err.message)
-        this.currentProfile.status = ProfileStatus.FAILED
-        this.currentProfile.addAttribute('error', err.message)
+        this.currentProfile.end(err)
       } else {
         const data = JSON.stringify(params.profile)
         this.currentProfile.addProfileData(Buffer.from(data))
-        this.currentProfile.status = ProfileStatus.SUCCESS
         this.currentProfile.addAttribute('profiler', this.name)
+        this.currentProfile.end()
       }
-
       this.agent.notifyEndProfile(this.currentProfile)
       this.started = false
       this.currentProfile = undefined

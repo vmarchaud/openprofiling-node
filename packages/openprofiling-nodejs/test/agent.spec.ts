@@ -1,5 +1,5 @@
 import { ProfilingAgent } from '../src'
-import { TriggerState, Profile, BaseTrigger, Exporter, BaseProfiler, Trigger, ProfileType } from '@openprofiling/core'
+import { TriggerState, Profile, BaseTrigger, BaseExporter, BaseProfiler, Trigger, ProfileType } from '@openprofiling/core'
 import * as assert from 'assert'
 
 class DummyTrigger extends BaseTrigger {
@@ -22,12 +22,13 @@ class DummyTrigger extends BaseTrigger {
 
 type onProfile = (profile: Profile) => void
 
-class DummyExporter implements Exporter {
+class DummyExporter extends BaseExporter {
 
   private onStart: onProfile | undefined
   private onEnd: onProfile | undefined
 
   constructor (onStart?: onProfile, onEnd?: onProfile) {
+    super('dummy')
     this.onEnd = onEnd
     this.onStart = onStart
   }

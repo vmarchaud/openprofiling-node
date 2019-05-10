@@ -80,9 +80,10 @@ describe('Inspector Heap Profiler', () => {
   })
 
   it('should receive profile start from profiler', (done) => {
-    const listener = new DummyExporter(profile => {
+    const listener = new DummyExporter((profile: Profile) => {
       assert(profile.kind === ProfileType.HEAP_PROFILE)
       assert(profile.status === ProfileStatus.UNKNOWN)
+      assert(profile.ended === false)
       agent.unregisterProfileListener(listener)
       return done()
     })
@@ -94,6 +95,7 @@ describe('Inspector Heap Profiler', () => {
     const listener = new DummyExporter(undefined, profile => {
       assert(profile.kind === ProfileType.HEAP_PROFILE)
       assert(profile.status === ProfileStatus.SUCCESS)
+      assert(profile.ended === true)
       assert(profile.data.length > 10)
       agent.unregisterProfileListener(listener)
       return done()
@@ -106,6 +108,7 @@ describe('Inspector Heap Profiler', () => {
     const listener = new DummyExporter(undefined, profile => {
       assert(profile.kind === ProfileType.HEAP_PROFILE)
       assert(profile.status === ProfileStatus.SUCCESS)
+      assert(profile.ended === true)
       agent.unregisterProfileListener(listener)
       return done()
     })

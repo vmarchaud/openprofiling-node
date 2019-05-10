@@ -12,9 +12,9 @@ export class Profile implements types.Profile {
   public attributes: types.Attributes
   /** The clock used to mesure the beginning and ending of a span */
   private clock: Clock
-  /** Indicates if this span was started */
-  private startedLocal = false
-  /** Indicates if this span was ended */
+  /** Indicates if this profile was started */
+  private startedLocal = true
+  /** Indicates if this profile was ended */
   private endedLocal = false
 
   constructor (name: string, kind: types.ProfileType) {
@@ -27,6 +27,9 @@ export class Profile implements types.Profile {
   }
 
   addAttribute (key: string, value: string | number | boolean) {
+    if (this.ended) {
+      throw new Error('You cannot add attributes to ended profile.')
+    }
     this.attributes[key] = value
   }
 
@@ -41,6 +44,8 @@ export class Profile implements types.Profile {
     if (err instanceof Error) {
       this.status = types.ProfileStatus.FAILED
       this.addAttribute('error', err.message)
+    } else {
+      this.status = types.ProfileStatus.SUCCESS
     }
   }
 
