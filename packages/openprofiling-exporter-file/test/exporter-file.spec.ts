@@ -22,11 +22,14 @@ describe('Exporter File', () => {
     profile.end()
     const expectedPath = resolve(tmpdir(), `${profile.kind.toLowerCase()}-${profile.startTime.toISOString()}-${profile.name}`)
     exporter.onProfileEnd(profile)
-    readFile(expectedPath, (err, buffer) => {
-      assert.ifError(err)
-      assert(buffer.toString() === 'test')
-      return done(err)
-    })
+    // without waiting, it could be race between the reading and the writing
+    setTimeout(_ => {
+      readFile(expectedPath, (err, buffer) => {
+        assert.ifError(err)
+        assert(buffer.toString() === 'test')
+        return done(err)
+      })
+    }, 50)
   })
 
   it('should correctly save the profile to disk with custom path', (done) => {
@@ -43,10 +46,13 @@ describe('Exporter File', () => {
     profile.end()
     const expectedPath = resolve(customPath, `${profile.kind.toLowerCase()}-${profile.startTime.toISOString()}-${profile.name}`)
     exporter.onProfileEnd(profile)
-    readFile(expectedPath, (err, buffer) => {
-      assert.ifError(err)
-      assert(buffer.toString() === 'test')
-      return done(err)
-    })
+    // without waiting, it could be race between the reading and the writing
+    setTimeout(_ => {
+      readFile(expectedPath, (err, buffer) => {
+        assert.ifError(err)
+        assert(buffer.toString() === 'test')
+        return done(err)
+      })
+    }, 50)
   })
 })
