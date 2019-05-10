@@ -1,6 +1,13 @@
 <p align="center">
   <img width="460" height="150" src="https://svgshare.com/i/Cte.svg">
+  </a>
 </p>
+
+
+[![Version](https://img.shields.io/npm/v/@openprofiling/core.svg)](https://img.shields.io/npm/v/@openprofiling/core.svg)
+[![Build Status](https://cloud.drone.io/api/badges/vmarchaud/openprofiling-node/status.svg)](https://cloud.drone.io/vmarchaud/openprofiling-node)
+[![codecov](https://codecov.io/gh/vmarchaud/openprofiling-node/branch/master/graph/badge.svg)](https://codecov.io/gh/vmarchaud/openprofiling-node)
+[![License](https://img.shields.io/npm/l/@opencensus/core.svg)](https://img.shields.io/npm/l/@opencensus/core.svg)
 
 
 OpenProfiling is a toolkit for collecting profiling data from production workload safely.
