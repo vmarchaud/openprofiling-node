@@ -75,7 +75,7 @@ describe('Signal Trigger', () => {
     profiler.onTrigger = function (_trigger, state) {
       assert(false, 'should not receive anything')
     }
-    process.on('SIGUSR2', (signal) => {
+    process.on('SIGUSR2', () => {
       profiler.onTrigger = originalOnTrigger
       return done()
     })
@@ -88,8 +88,7 @@ describe('Signal Trigger', () => {
     profiler.onTrigger = function (_trigger, state) {
       assert(false, 'should not receive anything')
     }
-    process.on('SIGUSR1', (signal) => {
-      assert(signal === 'SIGUSR1', 'should receive signal in handler')
+    process.on('SIGUSR1', () => {
       profiler.onTrigger = originalOnTrigger
       return done()
     })
