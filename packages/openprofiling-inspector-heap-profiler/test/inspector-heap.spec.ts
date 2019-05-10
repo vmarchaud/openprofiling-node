@@ -120,9 +120,11 @@ describe('Inspector Heap Profiler', () => {
   })
 
   describe('should work with custom inspector session', () => {
+    let session: inspector.Session
+
     it('should setup use of custom session', () => {
       agent.stop()
-      const session = new inspector.Session()
+      session = new inspector.Session()
       session.connect()
       profiler = new InspectorHeapProfiler({ session })
       profiler.enable(agent)
@@ -142,6 +144,10 @@ describe('Inspector Heap Profiler', () => {
         assert(profile.kind === ProfileType.HEAP_PROFILE)
         assert(profile.status === ProfileStatus.SUCCESS)
         agent.unregisterProfileListener(listener)
+        // see https://github.com/nodejs/node/issues/27641
+        setImmediate(_ => {
+          session.disconnect()
+        })
         return done()
       })
       agent.registerProfileListener(listener)
@@ -153,9 +159,11 @@ describe('Inspector Heap Profiler', () => {
   })
 
   describe('should work with custom inspector session (not opened)', () => {
+    let session: inspector.Session
+
     it('should setup use of custom session', () => {
       agent.stop()
-      const session = new inspector.Session()
+      session = new inspector.Session()
       profiler = new InspectorHeapProfiler({ session })
       profiler.enable(agent)
       agent.start({
@@ -174,6 +182,10 @@ describe('Inspector Heap Profiler', () => {
         assert(profile.kind === ProfileType.HEAP_PROFILE)
         assert(profile.status === ProfileStatus.SUCCESS)
         agent.unregisterProfileListener(listener)
+        // see https://github.com/nodejs/node/issues/27641
+        setImmediate(_ => {
+          session.disconnect()
+        })
         return done()
       })
       agent.registerProfileListener(listener)

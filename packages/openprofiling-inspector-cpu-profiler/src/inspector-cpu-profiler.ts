@@ -46,6 +46,11 @@ export class InspectorCPUProfiler extends BaseProfiler {
       this.stopProfiling()
     }
     this.session.post('Profiler.disable')
+    // if we openned a new session internally, we need to close it
+    // as only one session can be openned in node 8
+    if (this.options.session === undefined) {
+      this.session.disconnect()
+    }
   }
 
   onTrigger (trigger: Trigger, state: TriggerState) {

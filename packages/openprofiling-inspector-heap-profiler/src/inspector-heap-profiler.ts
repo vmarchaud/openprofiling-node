@@ -10,6 +10,8 @@ export class InspectorHeapProfilerOptions implements ProfilerOptions {
    */
   samplingInterval?: number
 }
+// if we openned a new session internally, we need to close it
+// as only one session can be openned in node 8
 
 export class InspectorHeapProfiler extends BaseProfiler {
 
@@ -51,6 +53,11 @@ export class InspectorHeapProfiler extends BaseProfiler {
       this.stopProfiling()
     }
     this.session.post('HeapProfiler.disable')
+    // if we openned a new session internally, we need to close it
+    // as only one session can be openned in node 8
+    if (this.options.session === undefined) {
+      this.session.disconnect()
+    }
   }
 
   onTrigger (trigger: Trigger, state: TriggerState) {
@@ -72,7 +79,7 @@ export class InspectorHeapProfiler extends BaseProfiler {
       this.started = true
       this.session.post('HeapProfiler.startSampling', {
         samplingInterval: typeof this.options.samplingInterval === 'number' ?
-          this.options.samplingInterval : undefined
+          this.options.samplingInterval : 8 * 1024
       })
       this.agent.notifyStartProfile(this.currentProfile)
       return
