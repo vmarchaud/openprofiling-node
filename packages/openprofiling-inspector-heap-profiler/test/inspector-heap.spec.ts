@@ -1,4 +1,9 @@
 
+if (process.version[1] === '6') {
+  console.log('Inspector is not available for node 6')
+  process.exit(0)
+}
+
 import { InspectorHeapProfiler } from '../src'
 import * as assert from 'assert'
 import * as inspector from 'inspector'
