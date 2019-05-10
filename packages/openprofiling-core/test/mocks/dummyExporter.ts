@@ -25,12 +25,4 @@ export class DummyExporter extends BaseExporter {
       this.onEnd(profile)
     }
   }
-
-  enable () {
-    return
-  }
-
-  disable () {
-    return
-  }
 }

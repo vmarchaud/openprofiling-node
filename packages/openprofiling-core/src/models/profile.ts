@@ -12,10 +12,6 @@ export class Profile implements types.Profile {
   public attributes: types.Attributes
   /** The clock used to mesure the beginning and ending of a span */
   private clock: Clock
-  /** Indicates if this profile was started */
-  private startedLocal = true
-  /** Indicates if this profile was ended */
-  private endedLocal = false
 
   constructor (name: string, kind: types.ProfileType) {
     this.data = Buffer.alloc(0)
@@ -39,8 +35,6 @@ export class Profile implements types.Profile {
 
   end (err?: Error) {
     this.clock.end()
-    this.startedLocal = false
-    this.endedLocal = true
     if (err instanceof Error) {
       this.status = types.ProfileStatus.FAILED
       this.addAttribute('error', err.message)
@@ -51,12 +45,12 @@ export class Profile implements types.Profile {
 
   /** Indicates if span was started. */
   get started (): boolean {
-    return this.startedLocal
+    return !!this.clock.startTime
   }
 
   /** Indicates if span was ended. */
   get ended (): boolean {
-    return this.endedLocal
+    return this.clock.ended
   }
 
   /**

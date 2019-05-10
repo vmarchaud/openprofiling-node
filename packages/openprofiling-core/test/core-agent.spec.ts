@@ -63,6 +63,7 @@ describe('Core Agent implementation', () => {
         assert.throws(() => {
           profile.addAttribute('test', true)
         })
+        assert(profile.duration > 0)
         assert(profile.data.toString() === 'test')
         assert(profile.status === ProfileStatus.SUCCESS)
         agent.unregisterProfileListener(handler)
