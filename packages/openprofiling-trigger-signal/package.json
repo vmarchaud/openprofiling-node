@@ -9,7 +9,7 @@
     "lint": "tslint --project . src/**/*.ts",
     "test": "mocha -r ts-node/register ./test/*.spec.ts",
     "test-coverage": "nyc mocha -r ts-node/register test/*.spec.ts",
-    "report-coverage": "nyc report --reporter=json && codecov -f coverage/*.json",
+    "report-coverage": "nyc report --reporter=json && codecov -f coverage/*.json -p ../..",
     "ci": "yarn test-coverage && yarn report-coverage",
     "prepublishOnly": "yarn build"
   },

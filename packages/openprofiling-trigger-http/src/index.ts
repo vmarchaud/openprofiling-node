@@ -1,3 +1,3 @@
 'use strict'
 
-export * from './http'
+export * from './http-trigger'

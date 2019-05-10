@@ -1,3 +1,3 @@
 'use strict'
 
-export * from './signal'
+export * from './signal-trigger'

@@ -1,2 +1,2 @@
 
-export * from './profiler'
+export * from './inspector-heap-profiler'
