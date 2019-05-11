@@ -75,6 +75,7 @@ Profilers are the implementation that collect profiling data from different sour
 
 - [CPU Sampling JS Profiler](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-cpu-profiler)
 - [Heap Sampling Profiler](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-heap-profiler)
+- [Heap Snapshot](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-heapsnapshot)
 
 ## Exporters
 

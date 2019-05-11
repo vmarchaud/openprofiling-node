@@ -1,10 +1,10 @@
 
 import { Config } from './config'
-import { Exporter } from '../exporters/types'
 
 export enum ProfileType {
   HEAP_PROFILE = 'HEAP_PROFILE',
-  CPU_PROFILE = 'CPU_PROFILE'
+  CPU_PROFILE = 'CPU_PROFILE',
+  HEAP_SNAPSHOT = 'HEAP_SNAPSHOT'
 }
 
 export enum ProfileStatus {
@@ -23,7 +23,7 @@ export interface Attributes {
   [attributeKey: string]: string | number | boolean
 }
 
-/** Interface for profile */
+/** Interfaceimport { Agent } from '../models/types' for profile */
 export interface Profile {
   /** The profile ID of this profile */
   readonly id: string
