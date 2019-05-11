@@ -102,6 +102,7 @@ describe('Inspector Heap Snapshot', () => {
       console.log(`RSS Usage after heapsnapshot : ${process.memoryUsage().rss} bytes`)
       assert(onStartHasBeenCalled === true)
       agent.unregisterProfileListener(listener)
+      profiler.disable()
       return done()
     }))
     agent.registerProfileListener(listener)

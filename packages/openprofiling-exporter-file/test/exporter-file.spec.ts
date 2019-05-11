@@ -29,7 +29,7 @@ describe('Exporter File', () => {
         assert(buffer.toString() === 'test')
         return done(err)
       })
-    }, 50)
+    }, 200)
   })
 
   it('should correctly save the profile to disk with custom path', (done) => {
@@ -53,6 +53,6 @@ describe('Exporter File', () => {
         assert(buffer.toString() === 'test')
         return done(err)
       })
-    }, 50)
+    }, 200)
   })
 })
