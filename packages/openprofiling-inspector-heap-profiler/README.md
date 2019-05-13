@@ -1,19 +1,21 @@
-# OpenProfiling NodeJS - Inspector-based Sampling Javascript CPU Profiler
+# OpenProfiling NodeJS - Inspector-based Sampling Javascript Heap Profiler
 
-This profiler is the recomended one to profile the CPU usage of your NodeJS application. It has a almost-zero impact on performance and specially suited for long-lived application.
+This profiler is the recomended one to profile the memory usage per function of your NodeJS application. It has a almost-zero impact on performance and specially suited for long-lived application.
+
+**NOTE**: Do not confuse the Sampling Heap Profiler (which is the same as `Allocation Sampling`) with the `Allocation Instrumentation`. The Instrumentation based is useful for recording *every* allocation but it was a greater impact in performance (and is not available currently in openprofiling).
 
 ### Advantages
 
-- This profiler works by forking a new specific thread, which will capture the main thread stacktrace (list of functions) every 1ms (by default), then aggregate the result to have approximatilly the CPU usage for a given period. **This implementation have the advantage that it doesn't run any additional code on the main thread which doesn't slow your application.**
+- The profiler will only record allocation made each X bytes (by default every 8KiB) which it doesn't impact a lot in terms of performance, while it's not possible to give a specific percentage, the V8 team made a module on top of the same API and said that it was fine to use in production ([src]()https://github.com/v8/sampling-heap-profiler)
 - The fact that is use the core `inspector` module means that it's **available out of the box without installing any dependency**.
 
 ### Drawbacks
 
-- The **sampling approach means that you never record every functions**, while it's possible that it doesn't record a function, it's highly impropable that it doesn't record it over one minute, specially if the function is called often. Put simply, **the more a given function use CPU time, the more it had the chance to be recorded**.
+- The **sampling approach means that you never record every memory allocations**, while it's possible that it doesn't record an allocation, it's highly impropable that it doesn't record it over one minute, specially if the function is called often. Put simply, **the more a given function allocate memory, the more it had the chance to be recorded**.
 - This profiler only record Javascript functions, which is generally enough, you will not be able to profile any C/C++ code running (eiter from V8, libuv, NodeJS or a native addon).
 - If you are using Node 8, the `inspector` module can have only one  session for a given process, means that if another dependency (generally APM vendors) already use it, you will have errors either in `openprofiling` or the other module.
-- Some V8 versions [has specific bug](https://bugs.chromium.org/p/v8/issues/detail?id=6623) that can impact your application, that's why it's not available for all versions in node 8.
-- Since it doesn't record every function call, **the profiler isn't suited for short-lived application** (ex: serverless) or to record cpu usage for a given request.
+- Some V8 versions [has specific bug](https://bugs.chromium.org/p/chromium/issues/detail?id=847863) that can impact your application, that's why it's not available for all versions in node 10.
+- Since it doesn't record every memory allocation, **the profiler isn't suited for short-lived application** (ex: serverless) or to record memory allocation for a given request.
 
 ### How to use
 
@@ -22,11 +24,11 @@ In the following example, you will need to send the `SIGUSR2` signal to the proc
 ```ts
 import { ProfilingAgent } from '@openprofiling/nodejs'
 import { FileExporter } from '@openprofiling/exporter-file'
-import { InspectorCPUProfiler } from '@openprofiling/inspector-cpu-profiler'
+import { InspectorHeapProfiler } from '@openprofiling/inspector-heap-profiler'
 import { SignalTrigger } from '@openprofiling/trigger-signal'
 
 const profilingAgent = new ProfilingAgent()
-profilingAgent.register(new SignalTrigger({ signal: 'SIGUSR2' }), new InspectorCPUProfiler())
+profilingAgent.register(new SignalTrigger({ signal: 'SIGUSR2' }), new InspectorHeapProfiler())
 profilingAgent.start({ exporter: new FileExporter() })
 ```
 
@@ -53,6 +55,5 @@ profilingAgent.start({ exporter: new FileExporter() })
 
 After retrieving the cpu profile file where it has been exported, it should have a `.cpuprofile` extension. Which is the standard extension for this type of data.
 You have multiple ways to read the output, here the list of (known) tools that you can use :
-- Chrome Developers Tools: https://developers.google.com/web/updates/2016/12/devtools-javascript-cpu-profile-migration#old
+- Chrome Developers Tools (Memory tab)
 - Speedscope: https://github.com/jlfwong/speedscope
-- Flamebearer: https://github.com/mapbox/flamebearer
