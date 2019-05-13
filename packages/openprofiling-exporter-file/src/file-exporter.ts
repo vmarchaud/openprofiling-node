@@ -12,6 +12,12 @@ const defaultFileExporterConfig: FileExporterConfig = {
   path: tmpdir()
 }
 
+export const fileExtensions = {
+  'HEAP_PROFILE': 'heapprofile',
+  'CPU_PROFILE': 'cpuprofile',
+  'HEAP_SNAPSHOT': 'heapsnapshot'
+}
+
 export class FileExporter extends BaseExporter {
 
   private config: FileExporterConfig = defaultFileExporterConfig
@@ -28,7 +34,8 @@ export class FileExporter extends BaseExporter {
   }
 
   onProfileEnd (profile: Profile) {
-    const filename = `${profile.kind.toLowerCase()}-${profile.startTime.toISOString()}-${profile.name}`
+    const extension = fileExtensions[profile.kind]
+    const filename = `${profile.kind.toLowerCase()}-${profile.startTime.toISOString()}.${extension}`
     const targetPath = resolve(this.config.path, filename)
     fs.writeFile(targetPath, profile.data, (err) => {
       if (err) {

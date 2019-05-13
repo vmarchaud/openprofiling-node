@@ -1,5 +1,5 @@
 
-import { FileExporter } from '../src'
+import { FileExporter, fileExtensions } from '../src'
 import * as assert from 'assert'
 import { Profile, ProfileType, CoreAgent } from '@openprofiling/core'
 import { tmpdir } from 'os'
@@ -20,7 +20,7 @@ describe('Exporter File', () => {
     const profile = new Profile('test', ProfileType.CPU_PROFILE)
     profile.addProfileData(Buffer.from('test'))
     profile.end()
-    const expectedPath = resolve(tmpdir(), `${profile.kind.toLowerCase()}-${profile.startTime.toISOString()}-${profile.name}`)
+    const expectedPath = resolve(tmpdir(), `${profile.kind.toLowerCase()}-${profile.startTime.toISOString()}.${fileExtensions[profile.kind]}`)
     exporter.onProfileEnd(profile)
     // without waiting, it could be race between the reading and the writing
     setTimeout(_ => {
@@ -44,7 +44,7 @@ describe('Exporter File', () => {
     const profile = new Profile('test', ProfileType.CPU_PROFILE)
     profile.addProfileData(Buffer.from('test'))
     profile.end()
-    const expectedPath = resolve(customPath, `${profile.kind.toLowerCase()}-${profile.startTime.toISOString()}-${profile.name}`)
+    const expectedPath = resolve(customPath, `${profile.kind.toLowerCase()}-${profile.startTime.toISOString()}.${fileExtensions[profile.kind]}`)
     exporter.onProfileEnd(profile)
     // without waiting, it could be race between the reading and the writing
     setTimeout(_ => {
