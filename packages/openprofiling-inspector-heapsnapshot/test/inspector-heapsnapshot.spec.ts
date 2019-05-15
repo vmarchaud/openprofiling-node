@@ -1,6 +1,8 @@
 
-if (process.version[1] === '6') {
-  console.log('Inspector is not available for node 6')
+import * as semver from 'semver'
+
+if (semver.lt(process.versions.node, '6.0.0') || semver.gte(process.versions.node, '11.0.0')) {
+  console.log('not available for node 6 or node starting 11')
   process.exit(0)
 }
 
