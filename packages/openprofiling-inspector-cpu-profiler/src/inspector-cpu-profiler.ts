@@ -70,6 +70,11 @@ export class InspectorCPUProfiler extends BaseProfiler {
       this.logger.info(`Starting profiling`)
       this.currentProfile = new Profile('toto', ProfileType.CPU_PROFILE)
       this.started = true
+      // start the idle time reporter to tell V8 when node is idle
+      // See https://github.com/nodejs/node/issues/19009#issuecomment-403161559.
+      if (process.hasOwnProperty('_startProfilerIdleNotifier') === true) {
+        (process as any)._startProfilerIdleNotifier()
+      }
       this.session.post('Profiler.start')
       this.agent.notifyStartProfile(this.currentProfile)
       return
@@ -86,6 +91,12 @@ export class InspectorCPUProfiler extends BaseProfiler {
       throw new Error(`Session wasn't initialized`)
     }
     this.session.post('Profiler.stop', (err, params) => {
+      // stop the idle time reporter to tell V8 when node is idle
+      // See https://github.com/nodejs/node/issues/19009#issuecomment-403161559.
+      if (process.hasOwnProperty('_stopProfilerIdleNotifier') === true) {
+        (process as any)._stopProfilerIdleNotifier()
+      }
+
       if (this.currentProfile === undefined) return
       if (err) {
         this.logger.error(`Failed to stop cpu profiler`, err.message)
