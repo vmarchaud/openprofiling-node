@@ -1,8 +1,7 @@
 
 import { SignalTrigger } from '../src'
 import * as assert from 'assert'
-import * as http from 'http'
-import { CoreAgent, BaseProfiler, TriggerState, Trigger, BaseTrigger } from '@openprofiling/core'
+import { CoreAgent, BaseProfiler, TriggerState, Trigger, BaseTrigger, TriggerEventOptions } from '@openprofiling/core'
 
 type onTriggerCallback = (trigger: Trigger, state: TriggerState) => {}
 
@@ -19,7 +18,7 @@ class DummyProfiler extends BaseProfiler {
     return
   }
 
-  onTrigger (trigger: Trigger, state: TriggerState) {
+  async onTrigger (state: TriggerState, options: TriggerEventOptions) {
     return
   }
 }
@@ -50,8 +49,8 @@ describe('Signal Trigger', () => {
 
   it('should receive trigger start inside profiler', (done) => {
     const originalOnTrigger = profiler.onTrigger
-    profiler.onTrigger = function (_trigger, state) {
-      assert(trigger === trigger, 'should be http trigger')
+    profiler.onTrigger = async function (state, { source }) {
+      assert(source === trigger, 'should be http trigger')
       assert(state === TriggerState.START, 'should be starting profile')
       profiler.onTrigger = originalOnTrigger
       return done()
@@ -61,8 +60,8 @@ describe('Signal Trigger', () => {
 
   it('should receive trigger end inside profiler', (done) => {
     const originalOnTrigger = profiler.onTrigger
-    profiler.onTrigger = function (_trigger, state) {
-      assert(trigger === trigger, 'should be the http trigger')
+    profiler.onTrigger = async function (state, { source }) {
+      assert(source === trigger, 'should be the http trigger')
       assert(state === TriggerState.END, 'state should be ending profile')
       profiler.onTrigger = originalOnTrigger
       return done()
@@ -72,7 +71,7 @@ describe('Signal Trigger', () => {
 
   it('should do nothing with other signal', (done) => {
     const originalOnTrigger = profiler.onTrigger
-    profiler.onTrigger = function (_trigger, state) {
+    profiler.onTrigger = async function (state) {
       assert(false, 'should not receive anything')
     }
     process.on('SIGUSR2', () => {
@@ -85,7 +84,7 @@ describe('Signal Trigger', () => {
   it('should disable the trigger', (done) => {
     trigger.disable()
     const originalOnTrigger = profiler.onTrigger
-    profiler.onTrigger = function (_trigger, state) {
+    profiler.onTrigger = async function (state) {
       assert(false, 'should not receive anything')
     }
     process.on('SIGUSR1', () => {

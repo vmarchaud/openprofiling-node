@@ -1,5 +1,5 @@
 
-import { BaseProfiler, Trigger, TriggerState, ProfilerOptions, CoreAgent, Profile, ProfileType, ProfileStatus } from '@openprofiling/core'
+import { BaseProfiler, Trigger, TriggerState, ProfilerOptions, CoreAgent, Profile, ProfileType, ProfileStatus, TriggerOptions, TriggerEventOptions } from '@openprofiling/core'
 import * as inspector from 'inspector'
 
 export interface InspectorCPUProfilerOptions extends ProfilerOptions {
@@ -53,7 +53,7 @@ export class InspectorCPUProfiler extends BaseProfiler {
     }
   }
 
-  onTrigger (trigger: Trigger, state: TriggerState) {
+  async onTrigger (state: TriggerState, options: TriggerEventOptions) {
     if (this.session === undefined) {
       throw new Error(`Session wasn't initialized`)
     }
@@ -68,7 +68,10 @@ export class InspectorCPUProfiler extends BaseProfiler {
 
     if (state === TriggerState.START) {
       this.logger.info(`Starting profiling`)
-      this.currentProfile = new Profile('toto', ProfileType.CPU_PROFILE)
+      this.currentProfile = new Profile(options.name || 'noname', ProfileType.CPU_PROFILE)
+      if (options.attributes) {
+        this.currentProfile.attributes = options.attributes
+      }
       this.started = true
       // start the idle time reporter to tell V8 when node is idle
       // See https://github.com/nodejs/node/issues/19009#issuecomment-403161559.

@@ -1,5 +1,5 @@
 import { ProfilingAgent } from '../src'
-import { TriggerState, Profile, BaseTrigger, BaseExporter, BaseProfiler, Trigger, ProfileType } from '@openprofiling/core'
+import { TriggerState, Profile, BaseTrigger, BaseExporter, BaseProfiler, Trigger, ProfileType, TriggerEventOptions } from '@openprofiling/core'
 import * as assert from 'assert'
 
 class DummyTrigger extends BaseTrigger {
@@ -16,7 +16,7 @@ class DummyTrigger extends BaseTrigger {
   }
 
   trigger (state: TriggerState) {
-    this.agent.onTrigger(this, state)
+    this.agent.onTrigger(state, { source: this })
   }
 }
 
@@ -33,13 +33,13 @@ class DummyExporter extends BaseExporter {
     this.onStart = onStart
   }
 
-  onProfileStart (profile) {
+  async onProfileStart (profile) {
     if (typeof this.onStart === 'function') {
       this.onStart(profile)
     }
   }
 
-  onProfileEnd (profile) {
+  async onProfileEnd (profile) {
     if (typeof this.onEnd === 'function') {
       this.onEnd(profile)
     }
@@ -69,7 +69,7 @@ class DummyProfiler extends BaseProfiler {
     return
   }
 
-  onTrigger (trigger: Trigger, state: TriggerState) {
+  async onTrigger (state: TriggerState, options: TriggerEventOptions) {
     if (state === TriggerState.START) {
       this.currentProfile = new Profile('test', ProfileType.CPU_PROFILE)
       this.agent.notifyStartProfile(this.currentProfile)
@@ -102,7 +102,7 @@ describe('Agent Integration test', () => {
 
   it('should trigger start and receive start hook in exporter', done => {
     const originalStart = exporter.onProfileStart
-    exporter.onProfileStart = (profile: Profile) => {
+    exporter.onProfileStart = async (profile: Profile) => {
       assert(profile.name === 'test')
       assert(profile.kind === ProfileType.CPU_PROFILE)
       exporter.onProfileStart = originalStart
@@ -113,7 +113,7 @@ describe('Agent Integration test', () => {
 
   it('should trigger end and receive end hook in exporter', done => {
     const originalEnd = exporter.onProfileEnd
-    exporter.onProfileEnd = (profile: Profile) => {
+    exporter.onProfileEnd = async (profile: Profile) => {
       assert(profile.name === 'test')
       assert(profile.kind === ProfileType.CPU_PROFILE)
       assert(profile.data.toString() === 'test')
@@ -129,7 +129,7 @@ describe('Agent Integration test', () => {
       agent.register(trigger, profiler)
     })
     const originalStart = exporter.onProfileStart
-    exporter.onProfileStart = (profile: Profile) => {
+    exporter.onProfileStart = async (profile: Profile) => {
       assert(false, 'should not be called')
     }
     trigger.trigger(TriggerState.START)

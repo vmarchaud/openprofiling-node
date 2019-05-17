@@ -21,7 +21,7 @@ describe('Exporter File', () => {
     profile.addProfileData(Buffer.from('test'))
     profile.end()
     const expectedPath = resolve(tmpdir(), `${profile.kind.toLowerCase()}-${profile.startTime.toISOString()}.${fileExtensions[profile.kind]}`)
-    exporter.onProfileEnd(profile)
+    exporter.onProfileEnd(profile).then().catch(done)
     // without waiting, it could be race between the reading and the writing
     setTimeout(_ => {
       readFile(expectedPath, (err, buffer) => {
@@ -45,7 +45,7 @@ describe('Exporter File', () => {
     profile.addProfileData(Buffer.from('test'))
     profile.end()
     const expectedPath = resolve(customPath, `${profile.kind.toLowerCase()}-${profile.startTime.toISOString()}.${fileExtensions[profile.kind]}`)
-    exporter.onProfileEnd(profile)
+    exporter.onProfileEnd(profile).then().catch(done)
     // without waiting, it could be race between the reading and the writing
     setTimeout(_ => {
       readFile(expectedPath, (err, buffer) => {

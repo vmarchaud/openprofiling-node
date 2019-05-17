@@ -29,11 +29,11 @@ export class FileExporter extends BaseExporter {
     }
   }
 
-  onProfileStart (profile: Profile) {
+  async onProfileStart (profile: Profile) {
     return
   }
 
-  onProfileEnd (profile: Profile) {
+  async onProfileEnd (profile: Profile) {
     const extension = fileExtensions[profile.kind]
     const filename = `${profile.kind.toLowerCase()}-${profile.startTime.toISOString()}.${extension}`
     const targetPath = resolve(this.config.path, filename)

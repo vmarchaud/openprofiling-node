@@ -1,5 +1,5 @@
 
-import { BaseProfiler, Trigger, TriggerState, ProfilerOptions, Profile, ProfileType } from '@openprofiling/core'
+import { BaseProfiler, Trigger, TriggerState, ProfilerOptions, Profile, ProfileType, TriggerEventOptions } from '@openprofiling/core'
 import * as inspector from 'inspector'
 
 export class InspectorHeapSnapshotOptions implements ProfilerOptions {
@@ -52,7 +52,7 @@ export class InspectorHeapSnapshot extends BaseProfiler {
     }
   }
 
-  onTrigger (trigger: Trigger, state: TriggerState) {
+  async onTrigger (state: TriggerState, options: TriggerEventOptions) {
     if (this.session === undefined) {
       throw new Error(`Session wasn't initialized`)
     }
@@ -69,7 +69,10 @@ export class InspectorHeapSnapshot extends BaseProfiler {
     this.session.post('HeapProfiler.collectGarbage')
 
     this.logger.info(`Starting heapsnapshot`)
-    this.currentProfile = new Profile('toto', ProfileType.HEAP_SNAPSHOT)
+    this.currentProfile = new Profile(options.name || 'noname', ProfileType.HEAP_SNAPSHOT)
+    if (options.attributes) {
+      this.currentProfile.attributes = options.attributes
+    }
     this.started = true
     this.agent.notifyStartProfile(this.currentProfile)
 

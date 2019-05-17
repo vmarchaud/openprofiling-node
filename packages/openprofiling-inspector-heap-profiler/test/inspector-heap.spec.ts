@@ -23,7 +23,7 @@ class DummyTrigger extends BaseTrigger {
   }
 
   trigger (state: TriggerState) {
-    this.agent.onTrigger(this, state)
+    this.agent.onTrigger(state, { source: this })
   }
 }
 
@@ -39,7 +39,7 @@ class DummyExporter implements Exporter {
     this.onStart = onStart
   }
 
-  onProfileStart (profile) {
+  async onProfileStart (profile) {
     if (typeof this.onStart === 'function') {
       this.onStart(profile)
     }
@@ -53,7 +53,7 @@ class DummyExporter implements Exporter {
     return
   }
 
-  onProfileEnd (profile) {
+  async onProfileEnd (profile) {
     if (typeof this.onEnd === 'function') {
       this.onEnd(profile)
     }
