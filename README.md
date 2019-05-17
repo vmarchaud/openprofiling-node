@@ -82,6 +82,7 @@ Profilers are the implementation that collect profiling data from different sour
 OpenProfiling aim to be vendor-neutral and can push profiling data to any backend with different exporter implementations. Currently, it supports:
 
 - [File exporter](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-exporter-file)
+- [S3 exporter](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-exporter-s3)
 
 ## Versioning
 
