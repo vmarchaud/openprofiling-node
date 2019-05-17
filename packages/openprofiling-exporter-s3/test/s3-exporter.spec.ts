@@ -47,7 +47,7 @@ describe('Exporter File', () => {
     const profile = new Profile('test', ProfileType.CPU_PROFILE)
     profile.addProfileData(Buffer.from('test'))
     profile.end()
-    await assert.rejects(exporter.onProfileEnd(profile))
+    await assert.rejects(() => exporter.onProfileEnd(profile))
   })
 
   it('should succesfully upload profile', async () => {
@@ -56,8 +56,8 @@ describe('Exporter File', () => {
     const profile = new Profile('test', ProfileType.CPU_PROFILE)
     profile.addProfileData(Buffer.from('test'))
     profile.end()
-    await assert.doesNotReject(exporter.onProfileEnd(profile))
-    await assert.doesNotReject(storage.isContainer(options.bucket))
+    await assert.doesNotReject(() => exporter.onProfileEnd(profile))
+    await assert.doesNotReject(() => storage.isContainer(options.bucket))
     const storedProfile = await storage.getObjectAsBuffer(options.bucket, getProfilePath(profile))
     assert(storedProfile.toString() === 'test')
   })

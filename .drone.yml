@@ -27,6 +27,7 @@ services:
   environment:
     MINIO_ACCESS_KEY: accessKey
     MINIO_SECRET_KEY: secretKey
+  entrypoint: [ 'minio', 'server', '/data' ]
 
 ---
 
@@ -57,6 +58,7 @@ services:
   environment:
     MINIO_ACCESS_KEY: accessKey
     MINIO_SECRET_KEY: secretKey
+  entrypoint: [ 'minio', 'server', '/data' ]
 
 ---
 
@@ -87,6 +89,7 @@ services:
   environment:
     MINIO_ACCESS_KEY: accessKey
     MINIO_SECRET_KEY: secretKey
+  entrypoint: [ 'minio', 'server', '/data' ]
 
 ---
 
@@ -117,6 +120,7 @@ services:
   environment:
     MINIO_ACCESS_KEY: accessKey
     MINIO_SECRET_KEY: secretKey
+  entrypoint: [ 'minio', 'server', '/data' ]
 
 ---
 
