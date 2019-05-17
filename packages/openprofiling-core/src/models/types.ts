@@ -14,8 +14,8 @@ export enum ProfileStatus {
 }
 
 export interface ProfileListener {
-  onProfileStart (profile: Profile): void
-  onProfileEnd (profile: Profile): void
+  onProfileStart (profile: Profile): Promise<void>
+  onProfileEnd (profile: Profile): Promise<void>
 }
 
 /** Maps a label to a string, number or boolean. */
@@ -23,10 +23,8 @@ export interface Attributes {
   [attributeKey: string]: string | number | boolean
 }
 
-/** Interfaceimport { Agent } from '../models/types' for profile */
+/** Interface for profile */
 export interface Profile {
-  /** The profile ID of this profile */
-  readonly id: string
 
   /** The resource name of the profile */
   name: string
@@ -102,23 +100,23 @@ export interface Agent {
    * Registers an end span event listener.
    * @param listener The listener to register.
    */
-  registerProfileListener (listener: ProfileListener): ThisType<Agent>
+  registerProfileListener (listener: ProfileListener): void
 
   /**
    * Unregisters an end span event listener.
    * @param listener The listener to unregister.
    */
-  unregisterProfileListener (listener: ProfileListener): ThisType<Agent>
+  unregisterProfileListener (listener: ProfileListener): void
 
   /**
    * Notify profile listener that a new profile has been created
    * @param profile a profile to broadcast to exporters
    */
-  notifyStartProfile (profile: Profile): ThisType<Agent>
+  notifyStartProfile (profile: Profile): void
 
   /**
    * Notify profile listener that a profile has been completed
    * @param profile a profile to broadcast to exporters
    */
-  notifyEndProfile (profile: Profile): ThisType<Agent>
+  notifyEndProfile (profile: Profile): void
 }

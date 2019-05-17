@@ -1,4 +1,4 @@
-import { Agent } from '../models/types'
+import { Agent, Attributes } from '../models/types'
 
 export interface Trigger {
   /**
@@ -19,7 +19,13 @@ export type TriggerOptions = {
   [key: string]: any;
 }
 
+export type TriggerEventOptions = {
+  source: Trigger
+  name?: string,
+  attributes?: Attributes
+}
+
 /** Called when a trigger fires a change in the state */
 export interface TriggerEventListener {
-  onTrigger (trigger: Trigger, state: TriggerState): void
+  onTrigger (state: TriggerState, options: TriggerEventOptions): void
 }

@@ -1,5 +1,5 @@
 
-import { Profile, BaseProfiler, Trigger, TriggerState, ProfileType } from '../../src'
+import { Profile, BaseProfiler, TriggerState, ProfileType, TriggerEventOptions } from '../../src'
 
 export class DummyProfiler extends BaseProfiler {
   private currentProfile: Profile
@@ -16,7 +16,7 @@ export class DummyProfiler extends BaseProfiler {
     return
   }
 
-  onTrigger (trigger: Trigger, state: TriggerState) {
+  async onTrigger (state: TriggerState, options: TriggerEventOptions) {
     if (state === TriggerState.START) {
       this.currentProfile = new Profile('test', ProfileType.CPU_PROFILE)
       this.agent.notifyStartProfile(this.currentProfile)

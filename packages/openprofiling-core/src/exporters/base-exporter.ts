@@ -30,6 +30,6 @@ export abstract class BaseExporter implements Exporter {
     this.logger.info(`Disabling exporter '${this.name}'`)
   }
 
-  abstract onProfileEnd (profile: Profile): void
-  abstract onProfileStart (profile: Profile): void
+  abstract onProfileEnd (profile: Profile): Promise<void>
+  abstract onProfileStart (profile: Profile): Promise<void>
 }

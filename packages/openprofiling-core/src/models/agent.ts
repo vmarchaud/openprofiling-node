@@ -4,7 +4,7 @@ import * as types from './types'
 import { Config, Reaction } from './config'
 import * as loggerTypes from '../common/types'
 import * as logger from '../common/console-logger'
-import { Trigger, TriggerState, TriggerEventListener } from '../triggers/types'
+import { Trigger, TriggerState, TriggerEventListener, TriggerEventOptions } from '../triggers/types'
 
 export class CoreAgent implements types.Agent, TriggerEventListener {
   /** Indicates if the tracer is active */
@@ -51,15 +51,14 @@ export class CoreAgent implements types.Agent, TriggerEventListener {
     return this.activeLocal
   }
 
-  onTrigger (trigger: Trigger, state: TriggerState): void {
-    const reactions = this.reactions.find(reaction => reaction.trigger === trigger)
+  onTrigger (state: TriggerState, options: TriggerEventOptions): void {
+    const reactions = this.reactions.find(reaction => reaction.trigger === options.source)
     if (reactions === undefined) return
-    reactions.profiler.onTrigger(trigger, state)
+    reactions.profiler.onTrigger(state, options)
   }
 
   registerProfileListener (listener: types.ProfileListener) {
     this.listeners.push(listener)
-    return this
   }
 
   unregisterProfileListener (listener: types.ProfileListener) {
@@ -74,23 +73,25 @@ export class CoreAgent implements types.Agent, TriggerEventListener {
     this.logger.debug(`starting to notify listeners the start of ${profile.kind}`)
     if (this.listeners && this.listeners.length > 0) {
       for (const listener of this.listeners) {
-        listener.onProfileStart(profile)
+        listener.onProfileStart(profile).then(() => {
+          this.logger.debug(`succesfully called ${listener}.onProfileStart`)
+        }).catch(err => {
+          this.logger.error(`Failed to called onProfileStart on ${listener}`, err)
+        })
       }
     }
-    return this
   }
 
   notifyEndProfile (profile: types.Profile) {
-    if (this.active) {
-      this.logger.debug('starting to notify listeners the end of rootspans')
-      if (this.listeners && this.listeners.length > 0) {
-        for (const listener of this.listeners) {
-          listener.onProfileEnd(profile)
-        }
-      }
-    } else {
-      this.logger.debug('this tracer is inactivate cant notify')
+    this.logger.debug(`starting to notify listeners the end of ${profile.kind}`)
+    if (this.listeners.length === 0) return
+
+    for (const listener of this.listeners) {
+      listener.onProfileEnd(profile).then(() => {
+        this.logger.debug(`succesfully called ${listener}.onProfileEnd`)
+      }).catch(err => {
+        this.logger.error(`Failed to called onProfileEnd on ${listener}`, err)
+      })
     }
-    return this
   }
 }

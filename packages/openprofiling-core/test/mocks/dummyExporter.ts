@@ -14,13 +14,13 @@ export class DummyExporter extends BaseExporter {
     this.onStart = onStart
   }
 
-  onProfileStart (profile) {
+  async onProfileStart (profile) {
     if (typeof this.onStart === 'function') {
       this.onStart(profile)
     }
   }
 
-  onProfileEnd (profile) {
+  async onProfileEnd (profile) {
     if (typeof this.onEnd === 'function') {
       this.onEnd(profile)
     }

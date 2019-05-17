@@ -31,7 +31,7 @@ describe('Core Agent implementation', () => {
 
   it('should trigger via dummy trigger', (done) => {
     const handler = {
-      onProfileStart: (profile: Profile) => {
+      onProfileStart: async (profile: Profile) => {
         assert(profile instanceof Profile)
         assert(profile.ended === false)
         assert.doesNotThrow(() => {
@@ -43,7 +43,7 @@ describe('Core Agent implementation', () => {
         agent.unregisterProfileListener(handler)
         return done()
       },
-      onProfileEnd: (profile: Profile) => {
+      onProfileEnd: async (profile: Profile) => {
         return
       }
     }
@@ -54,10 +54,10 @@ describe('Core Agent implementation', () => {
 
   it('should end profile via dummy trigger', (done) => {
     const handler = {
-      onProfileStart: (profile: Profile) => {
+      onProfileStart: async (profile: Profile) => {
         return
       },
-      onProfileEnd: (profile: Profile) => {
+      onProfileEnd: async (profile: Profile) => {
         assert(profile instanceof Profile)
         assert(profile.ended === true)
         assert.throws(() => {

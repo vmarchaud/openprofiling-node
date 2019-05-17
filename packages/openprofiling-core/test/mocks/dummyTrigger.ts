@@ -15,6 +15,6 @@ export class DummyTrigger extends BaseTrigger {
   }
 
   trigger (state: TriggerState) {
-    this.agent.onTrigger(this, state)
+    this.agent.onTrigger(state, { source: this })
   }
 }

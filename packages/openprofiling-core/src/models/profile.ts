@@ -4,7 +4,6 @@ import { Clock } from '../utils/clock'
 
 export class Profile implements types.Profile {
 
-  public readonly id: string
   public data: Buffer
   public name: string
   public kind: types.ProfileType

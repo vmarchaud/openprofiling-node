@@ -1,7 +1,7 @@
 import { Profiler, ProfilerOptions } from './types'
 import { Logger } from '../common/types'
 import { CoreAgent } from '../models/agent'
-import { Trigger, TriggerState } from '../triggers/types'
+import { TriggerEventOptions, TriggerState } from '../triggers/types'
 import { ConsoleLogger } from '../common/console-logger'
 
 export abstract class BaseProfiler implements Profiler {
@@ -34,5 +34,5 @@ export abstract class BaseProfiler implements Profiler {
   abstract init (): void
   abstract destroy (): void
 
-  abstract onTrigger (trigger: Trigger, state: TriggerState): void
+  abstract onTrigger (state: TriggerState, options: TriggerEventOptions): Promise<void>
 }
