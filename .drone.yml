@@ -1,24 +1,3 @@
-kind: pipeline
-name: node6
-
-steps:
-- name: build
-  image: node:6
-  commands:
-  - node -v
-  - yarn -v
-  - uname -r
-  - yarn install
-  - export PATH=$PATH:./node_modules/.bin/
-  - lerna bootstrap --npm-client yarn
-  - lerna run build --npm-client yarn
-  - lerna run test --npm-client yarn
-  environment:
-    NODE_ENV: test
-  when:
-    event:
-    - push
-
 ---
 
 kind: pipeline
