@@ -49,6 +49,8 @@ steps:
   environment:
     NODE_ENV: test
     S3_HOST: minio
+    CODECOV_TOKEN:
+      from_secret: coverage_token
   when:
     event:
     - push
