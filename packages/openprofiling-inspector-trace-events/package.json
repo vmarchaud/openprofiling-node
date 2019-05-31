@@ -6,12 +6,11 @@
   "repository": "openprofiling/openprofiling-node",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "build:module": "tsc -p config/exports/tsconfig.module.json",
     "lint": "tslint --project . src/**/*.ts",
-    "unit": "yarn build && mocha  --exit -r ts-node/register ./test/*.spec.ts ./test/**/*.spec.ts",
-    "mono": "mocha  --exit --require ts-node/register",
-    "test": "yarn lint && yarn unit",
-    "watch": "tsc -w",
+    "test": "mocha -r ts-node/register ./test/*.spec.ts",
+    "test-coverage": "nyc mocha -r ts-node/register test/*.spec.ts",
+    "report-coverage": "nyc report --reporter=json && codecov -f coverage/*.json -p ../..",
+    "ci": "yarn test-coverage && yarn report-coverage",
     "prepublishOnly": "yarn build"
   },
   "keywords": [
@@ -60,6 +59,6 @@
     "typescript": "^3.3.3"
   },
   "dependencies": {
-    "@openprofiling/core": "^0.0.1"
+    "@openprofiling/core": "^0.0.2"
   }
 }

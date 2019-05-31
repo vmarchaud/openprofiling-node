@@ -1,10 +1,12 @@
 
-import { BaseProfiler, Trigger, TriggerState, ProfilerOptions, CoreAgent, Profile, ProfileType, ProfileStatus } from '@openprofiling/core'
+import { BaseProfiler, TriggerState, ProfilerOptions, Profile, ProfileType, ProfileStatus, TriggerEventOptions } from '@openprofiling/core'
 import * as inspector from 'inspector'
+
+export type TraceEventsCategories = 'node.fs.sync' | 'v8.gc' | 'v8.runtime' | 'node.bootstrap' | 'v8.jit' | 'v8.compile'
 
 export class TraceEventsProfilerOptions implements ProfilerOptions {
   session?: inspector.Session
-  categories?: string[]
+  categories?: TraceEventsCategories[]
 }
 
 export type TraceEvent = {
@@ -35,6 +37,9 @@ export class TraceEventsProfiler extends BaseProfiler {
   private currentProfile: Profile | undefined
 
   protected options: TraceEventsProfilerOptions
+  private categories: Set<string> = new Set([
+    'node.bootstrap', 'v8.gc', 'v8.jit'
+  ])
 
   constructor (options?: TraceEventsProfilerOptions) {
     super('inspector-trace-events', options)
@@ -58,10 +63,35 @@ export class TraceEventsProfiler extends BaseProfiler {
         return
       }
     }
-    if (this.options.categories === undefined || this.options.categories.length === 0) {
-      this.options.categories = [
-        'node', 'v8', 'node.async', 'node.bootstrap', 'node.fs.sync'
-      ]
+    if (this.options.categories !== undefined && this.options.categories.length > 0) {
+      this.categories = new Set(this.options.categories)
+    }
+    for (let category of this.categories) {
+      switch (category) {
+        case 'v8.gc': {
+          this.categories.add('disabled-by-default-v8.gc_stats')
+          this.categories.add('disabled-by-default-v8.gc')
+          break
+        }
+        case 'v8.jit': {
+          this.categories.add('disabled-by-default-v8.ic_stats')
+          this.categories.add('v8')
+          this.categories.add('V8.DeoptimizeCode')
+          break
+        }
+        case 'v8.runtime': {
+          this.categories.add('disabled-by-default-v8.runtime_stats')
+          this.categories.add('disabled-by-default-v8.runtime')
+          this.categories.add('v8.execute')
+          break
+        }
+        case 'v8.compile': {
+          this.categories.add('disabled-by-default-v8.compile')
+          this.categories.add('v8')
+          this.categories.add('v8.compile')
+          break
+        }
+      }
     }
   }
 
@@ -73,7 +103,7 @@ export class TraceEventsProfiler extends BaseProfiler {
     }
   }
 
-  onTrigger (trigger: Trigger, state: TriggerState) {
+  async onTrigger (state: TriggerState, options: TriggerEventOptions) {
     if (this.session === undefined) {
       throw new Error(`Session wasn't initialized`)
     }
@@ -88,10 +118,12 @@ export class TraceEventsProfiler extends BaseProfiler {
 
     if (state === TriggerState.START) {
       this.logger.info(`Starting profiling`)
-      this.currentProfile = new Profile('toto', ProfileType.PERFECTO)
+      this.currentProfile = new Profile(options.name || 'noname', ProfileType.PERFECTO)
       this.started = true
       this.session.post('NodeTracing.start', {
-        includedCategories: this.options.categories
+        traceConfig: {
+          includedCategories: Array.from(this.categories)
+        }
       })
       this.agent.notifyStartProfile(this.currentProfile)
       return
@@ -110,8 +142,6 @@ export class TraceEventsProfiler extends BaseProfiler {
     const buffer: TraceEvent[] = []
     const onDataCollected = (message: TraceEventsCollected) => {
       const data = message.params.value
-      console.log('aaaaaaaa')
-      console.log(data)
       buffer.push(...data)
     }
     const onTracingComplete = () => {
@@ -121,7 +151,6 @@ export class TraceEventsProfiler extends BaseProfiler {
       this.session.removeListener('NodeTracing.tracingComplete', onTracingComplete)
 
       if (this.currentProfile === undefined) return
-      console.log('aaaa')
 
       // serialize buffer
       const data = JSON.stringify(buffer)
@@ -136,7 +165,9 @@ export class TraceEventsProfiler extends BaseProfiler {
     this.session.on('NodeTracing.dataCollected', onDataCollected)
     this.session.on('NodeTracing.tracingComplete', onTracingComplete)
     this.session.post('NodeTracing.stop', {
-      includedCategories: this.options.categories
+      traceConfig: {
+        includedCategories: Array.from(this.categories)
+      }
     }, (err, args) => {
       if (err && this.currentProfile !== undefined) {
         this.logger.error(`Failed to stop trace events profiler`, err.message)
