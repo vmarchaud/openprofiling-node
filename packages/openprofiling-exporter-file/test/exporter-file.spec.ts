@@ -9,6 +9,7 @@ import { readFile, mkdir } from 'fs'
 describe('Exporter File', () => {
   let exporter = new FileExporter()
   let agent = new CoreAgent()
+  agent.start({ logLevel: 4, reactions: [] })
   exporter.enable(agent)
 
   it('should export a profiler implementation', () => {

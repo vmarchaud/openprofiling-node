@@ -13,8 +13,8 @@ steps:
   - yarn install
   - export PATH=$PATH:./node_modules/.bin/
   - lerna bootstrap --npm-client yarn
-  - lerna run build --npm-client yarn
-  - lerna run test --npm-client yarn
+  - lerna run build --npm-client yarn --ignore "@openprofiling/inspector-trace-events"
+  - lerna run test --npm-client yarn --ignore "@openprofiling/inspector-trace-events"
   environment:
     NODE_ENV: test
     S3_HOST: minio
@@ -77,8 +77,8 @@ steps:
   - yarn install
   - export PATH=$PATH:./node_modules/.bin/
   - lerna bootstrap --npm-client yarn
-  - lerna run build --npm-client yarn
-  - lerna run test --npm-client yarn
+  - lerna run build --npm-client yarn --ignore "@openprofiling/heapsnapshot"
+  - lerna run test --npm-client yarn --ignore "@openprofiling/heapsnapshot"
   environment:
     NODE_ENV: test
     S3_HOST: minio
@@ -108,8 +108,8 @@ steps:
   - yarn install
   - export PATH=$PATH:./node_modules/.bin/
   - lerna bootstrap --npm-client yarn
-  - lerna run build --npm-client yarn
-  - lerna run test --npm-client yarn
+  - lerna run build --npm-client yarn --ignore "@openprofiling/inspector-heapsnapshot"
+  - lerna run test --npm-client yarn --ignore "@openprofiling/inspector-heapsnapshot"
   environment:
     NODE_ENV: test
     S3_HOST: minio
