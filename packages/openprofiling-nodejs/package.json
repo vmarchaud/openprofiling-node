@@ -1,6 +1,6 @@
 {
   "name": "@openprofiling/nodejs",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "repository": "openprofiling/openprofiling-node",
@@ -49,7 +49,7 @@
     "all": true
   },
   "dependencies": {
-    "@openprofiling/core": "^0.0.2"
+    "@openprofiling/core": "^0.1.0"
   },
   "devDependencies": {
     "codecov": "^3.4.0",
@@ -59,5 +59,6 @@
     "tslint": "^5.16.0",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^3.4.5"
-  }
+  },
+  "gitHead": "af672673dec8a0ce585943651048a50fa5d84f82"
 }
