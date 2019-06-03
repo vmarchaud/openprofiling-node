@@ -1,6 +1,6 @@
 {
   "name": "@openprofiling/exporter-file",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "repository": "openprofiling/openprofiling-node",
@@ -58,6 +58,6 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
-    "@openprofiling/core": "^0.0.2"
+    "@openprofiling/core": "^0.1.0"
   }
 }
