@@ -46,14 +46,23 @@ const profilingAgent = new ProfilingAgent()
 // creation a session
 const session = new inspector.Session()
 // give it as parameters to the constructor
-profilingAgent.register(new SignalTrigger({ signal: 'SIGUSR1' }), new InspectorHeapProfiler({ session }))
-profilingAgent.register(new SignalTrigger({ signal: 'SIGUSR2' }), new InspectorCPUProfiler({ session }))
+profilingAgent.register(new SignalTrigger({ signal: 'SIGUSR2' }), new InspectorHeapProfiler({ session }))
+profilingAgent.register(new SignalTrigger({ signal: 'SIGUSR1' }), new InspectorCPUProfiler({ session }))
 profilingAgent.start({ exporter: new FileExporter() })
 ```
 
+After starting your process, you just need to send to it the configured signal:
+- linux/macos: `kill -s USR2 <pid>`
+- kubectl: `kubectl exec -ti <name-of-pod> /bin/kill -s USR2 1` (assuming your process is the pid 1)
+
+You can find the pid either by `console.log(process.pid)` when your process start or use `ps aux | grep node` and looking for your process.
+The first time you send the signal, it will start the profiler which will start recording memory allocation, you should then wait for your memory leak to happen again.
+When you think you collected enough data (either you reproduced the leak or you believe there enought data), you just need to send the same signal as above.
+The profiling agent will then write the file to the disk (by default in `/tmp`), it should start with `heap-profile`.
+
 ### Vizualisation
 
-After retrieving the cpu profile file where it has been exported, it should have a `.cpuprofile` extension. Which is the standard extension for this type of data.
+After retrieving the cpu profile file where it has been exported, it should have a `.heapprofile` extension. Which is the standard extension for this type of data.
 You have multiple ways to read the output, here the list of (known) tools that you can use :
 - Chrome Developers Tools (Memory tab)
 - Speedscope: https://github.com/jlfwong/speedscope

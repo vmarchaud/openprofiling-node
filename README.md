@@ -18,6 +18,29 @@ The library is in alpha stage and the API is subject to change.
 
 I expect that the library will not match everyone use-cases, so i'm asking to everyone in this case to open an issue so we can discuss how the toolkit could meet yours.
 
+## Use cases
+
+### An application have a memory leak
+
+The recommend profiler is the [Heap Sampling Profiler](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-heap-profiler) which has the lowest impact in terms of performance, [here the instructions on how to use it](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-heap-profiler#how-to-use).
+After getting the exported file, you can go to [speedscope](https://www.speedscope.app/) to analyse it.
+[If we load a example heap profile](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fvmarchaud%2Fopenprofiling-node%2F475c1f31e5635cd9230c9296549dfbf9765a7464%2Fexamples%2Fprofiles%2Fsimple.heapprofile) and head to `Sandwich` panel, we can see a list of functions listed by how much memory it allocated.
+
+Note that the top function in the view should be automatically considerated as leak, when you receive a http request for example, nodejs allocate memory for it but it will be cleaned up after it finish. The view will only show where memory is allocated, not where it leaks.
+
+### A application is using too much CPU
+
+The recommend profiler is the [CPU JS Sampling Profiler](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-cpu-profiler) which is made for production profiling (low overhead), [checkout the instructions to get it running](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-cpu-profiler#how-to-use).
+After getting the exported file, you can go to [speedscope](https://www.speedscope.app/) to analyse it.
+[If we load a example cpu profile](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fvmarchaud%2Fopenprofiling-node%2F475c1f31e5635cd9230c9296549dfbf9765a7464%2Fexamples%2Fprofiles%2Fheavy.cpuprofile) and head to `Sandwich` panel again, we can see a list of functions sorted by how much cpu they used.
+
+Note that there is two concepts of "time used":
+- `self`: which is the time the cpu took in the function **itself**, without considering calling other functions.
+- `total`: the opposite of `self`, it represent **both the time used by the function and all functions that it called**.
+
+You should then look for functions that have a high `self` time, which means that their inner code take a lot of time to execute.
+
+
 ## Installation
 
 Install OpenProfiling for NodeJS with:
@@ -39,7 +62,7 @@ Before running your application with `@openprofiling/nodejs`, you will need choo
 - How to start this profiler: an `trigger`
 - Where to send the profiling data: an `exporter`
 
-### Typescript API
+### Typescript Example
 
 ```ts
 import { ProfilingAgent } from '@openprofiling/nodejs'
@@ -53,7 +76,7 @@ const profilingAgent = new ProfilingAgent()
  * Register a profiler for a specific trigger
  * ex: we want to collect cpu profile when the application receive a SIGUSR2 signal
  */
-profilingAgent.register(new SignalTrigger({ signal: 'SIGUSR2' }), new InspectorCPUProfiler())
+profilingAgent.register(new SignalTrigger({ signal: 'SIGUSR2' }), new InspectorCPUProfiler({}))
 /**
  * Start the agent (which will tell the trigger to start listening) and
  * configure where to output the profiling data
@@ -62,7 +85,7 @@ profilingAgent.register(new SignalTrigger({ signal: 'SIGUSR2' }), new InspectorC
 profilingAgent.start({ exporter: new FileExporter() })
 ```
 
-### Javascript API
+### Javascript Example
 
 ```js
 const { ProfilingAgent } = require('@openprofiling/nodejs')
