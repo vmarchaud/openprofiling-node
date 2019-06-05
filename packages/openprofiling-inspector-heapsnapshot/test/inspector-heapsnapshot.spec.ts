@@ -87,7 +87,7 @@ describe('Inspector Heap Snapshot', () => {
   })
 
   it('should receive profile start from profiler', function (done) {
-    this.timeout(30000)
+    this.timeout(60000)
     let onStartHasBeenCalled = false
     const listener = new DummyExporter((profile: Profile) => {
       assert(profile.kind === ProfileType.HEAP_SNAPSHOT)
@@ -132,7 +132,7 @@ describe('Inspector Heap Snapshot', () => {
     })
 
     it('should take a profile succesfully', function (done) {
-      this.timeout(30000)
+      this.timeout(60000)
       const listener = new DummyExporter(undefined, profile => {
         assert(profile.kind === ProfileType.HEAP_SNAPSHOT)
         assert(profile.status === ProfileStatus.SUCCESS)
@@ -169,7 +169,7 @@ describe('Inspector Heap Snapshot', () => {
     })
 
     it('should take a profile succesfully', function (done) {
-      this.timeout(30000)
+      this.timeout(60000)
       const listener = new DummyExporter(undefined, profile => {
         assert(profile.kind === ProfileType.HEAP_SNAPSHOT)
         assert(profile.status === ProfileStatus.SUCCESS)
