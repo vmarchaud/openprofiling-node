@@ -12,30 +12,30 @@
 
 OpenProfiling is a toolkit for collecting profiling data from production workload safely.
 
-The project's goal is to empower developers to understand how they applications is behaving in production with minimal performance impact and without vendor lock-in.
+The project's goal is to empower developers to understand how their applications is behaving in production with minimal performance impact and without vendor lock-in.
 
 The library is in alpha stage and the API is subject to change.
 
-I expect that the library will not match everyone use-cases, so i'm asking to everyone in this case to open an issue so we can discuss how the toolkit could meet yours.
+I expect that the library will not match everyone use-cases, so I'm asking everyone in this case to open an issue so we can discuss how the toolkit could meet yours.
 
 ## Use cases
 
 ### An application have a memory leak
 
-The recommend profiler is the [Heap Sampling Profiler](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-heap-profiler) which has the lowest impact in terms of performance, [here the instructions on how to use it](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-heap-profiler#how-to-use).
+The recommended profiler is the [Heap Sampling Profiler](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-heap-profiler) which has the lowest impact in terms of performance, [here are the instructions on how to use it](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-heap-profiler#how-to-use).
 After getting the exported file, you can go to [speedscope](https://www.speedscope.app/) to analyse it.
-[If we load a example heap profile](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fvmarchaud%2Fopenprofiling-node%2F475c1f31e5635cd9230c9296549dfbf9765a7464%2Fexamples%2Fprofiles%2Fsimple.heapprofile) and head to `Sandwich` panel, we can see a list of functions listed by how much memory it allocated.
+[If we load an example heap profile](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fvmarchaud%2Fopenprofiling-node%2F475c1f31e5635cd9230c9296549dfbf9765a7464%2Fexamples%2Fprofiles%2Fsimple.heapprofile) and head to the `Sandwich` panel, we can see a list of functions sorted by how much memory they allocated.
 
-Note that the top function in the view should be automatically considerated as leak, when you receive a http request for example, nodejs allocate memory for it but it will be cleaned up after it finish. The view will only show where memory is allocated, not where it leaks.
+Note that the top function in the view should be automatically considered as a leak: for example, when you receive a HTTP request, NodeJS allocates some memory for it but it will be freed after the request finishes. The view will only show where memory is allocated, not where it leaks.
 
-### A application is using too much CPU
+### An application is using too much CPU
 
-The recommend profiler is the [CPU JS Sampling Profiler](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-cpu-profiler) which is made for production profiling (low overhead), [checkout the instructions to get it running](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-cpu-profiler#how-to-use).
-After getting the exported file, you can go to [speedscope](https://www.speedscope.app/) to analyse it.
-[If we load a example cpu profile](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fvmarchaud%2Fopenprofiling-node%2F475c1f31e5635cd9230c9296549dfbf9765a7464%2Fexamples%2Fprofiles%2Fheavy.cpuprofile) and head to `Sandwich` panel again, we can see a list of functions sorted by how much cpu they used.
+The recommended profiler is the [CPU JS Sampling Profiler](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-cpu-profiler) which is made for production profiling (low overhead), [check the instructions to get it running](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-cpu-profiler#how-to-use).
+After getting the exported file, you can go to [speedscope](https://www.speedscope.app/) to analyze it.
+[If we load an example CPU profile](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fvmarchaud%2Fopenprofiling-node%2F475c1f31e5635cd9230c9296549dfbf9765a7464%2Fexamples%2Fprofiles%2Fheavy.cpuprofile) and head to the `Sandwich` panel again, we can see a list of functions sorted by how much CPU they used.
 
 Note that there is two concepts of "time used":
-- `self`: which is the time the cpu took in the function **itself**, without considering calling other functions.
+- `self`: which is the time the CPU took in the function **itself**, without considering calling other functions.
 - `total`: the opposite of `self`, it represent **both the time used by the function and all functions that it called**.
 
 You should then look for functions that have a high `self` time, which means that their inner code take a lot of time to execute.
@@ -57,9 +57,9 @@ npm install @openprofiling/nodejs
 
 ## Configure
 
-Before running your application with `@openprofiling/nodejs`, you will need choose 3 different things:
-- What do you want to profile: an `profiler`
-- How to start this profiler: an `trigger`
+Before running your application with `@openprofiling/nodejs`, you will need to choose 3 different things:
+- What do you want to profile: a `profiler`
+- How to start this profiler: a `trigger`
 - Where to send the profiling data: an `exporter`
 
 ### Typescript Example
@@ -85,7 +85,7 @@ profilingAgent.register(new SignalTrigger({ signal: 'SIGUSR2' }), new InspectorC
 profilingAgent.start({ exporter: new FileExporter() })
 ```
 
-### Javascript Example
+### JavaScript Example
 
 ```js
 const { ProfilingAgent } = require('@openprofiling/nodejs')
@@ -125,7 +125,7 @@ Profilers are the implementation that collect profiling data from different sour
 
 ## Exporters
 
-OpenProfiling aim to be vendor-neutral and can push profiling data to any backend with different exporter implementations. Currently, it supports:
+OpenProfiling aims to be vendor-neutral and can push profiling data to any backend with different exporter implementations. Currently, it supports:
 
 - [File exporter](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-exporter-file)
 - [S3 exporter](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-exporter-s3)
