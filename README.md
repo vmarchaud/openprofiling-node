@@ -39,7 +39,7 @@ Before running your application with `@openprofiling/nodejs`, you will need choo
 - How to start this profiler: an `trigger`
 - Where to send the profiling data: an `exporter`
 
-Then, the API is pretty straigthforward (example are in typescript):
+### Typescript API
 
 ```ts
 import { ProfilingAgent } from '@openprofiling/nodejs'
@@ -60,6 +60,28 @@ profilingAgent.register(new SignalTrigger({ signal: 'SIGUSR2' }), new InspectorC
  * ex: the file exporter will output on the disk, by default in /tmp
  */
 profilingAgent.start({ exporter: new FileExporter() })
+```
+
+### Javascript API
+
+```js
+const { ProfilingAgent } = require('@openprofiling/nodejs')
+const { FileExporter } = require('@openprofiling/exporter-file')
+const { InspectorCPUProfiler } = require('@openprofiling/inspector-cpu-profiler')
+const { SignalTrigger } = require('@openprofiling/trigger-signal')
+
+const profilingAgent = new ProfilingAgent()
+/**
+ * Register a profiler for a specific trigger
+ * ex: we want to collect cpu profile when the application receive a SIGUSR2 signal
+ */
+profilingAgent.register(new SignalTrigger({ signal: 'SIGUSR1' }), new InspectorCPUProfiler({}))
+/**
+ * Start the agent (which will tell the trigger to start listening) and
+ * configure where to output the profiling data
+ * ex: the file exporter will output on the disk, by default in /tmp
+ */
+profilingAgent.start({ exporter: new FileExporter(), logLevel: 4 })
 ```
 
 ## Triggers
