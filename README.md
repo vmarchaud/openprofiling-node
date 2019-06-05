@@ -26,7 +26,13 @@ The recommended profiler is the [Heap Sampling Profiler](https://github.com/vmar
 After getting the exported file, you can go to [speedscope](https://www.speedscope.app/) to analyse it.
 [If we load an example heap profile](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fvmarchaud%2Fopenprofiling-node%2F475c1f31e5635cd9230c9296549dfbf9765a7464%2Fexamples%2Fprofiles%2Fsimple.heapprofile) and head to the `Sandwich` panel, we can see a list of functions sorted by how much memory they allocated.
 
-Note that the top function in the view should be automatically considered as a leak: for example, when you receive a HTTP request, NodeJS allocates some memory for it but it will be freed after the request finishes. The view will only show where memory is allocated, not where it leaks.
+At the left of the table, you have two entry:
+- `self` memory: is how much the function allocated in the memory to run without counting any function that it may have called.
+- `total` memory: the opposite of `self` which means that it count the memory it allocated plus all the memory allocated by the functions it called.
+
+Note that the top function in the view should not be automatically considered as a leak: for example, when you receive a HTTP request, NodeJS allocates some memory for it but it will be freed after the request finishes. The view will only show where memory is allocated, not where it leaks.
+
+We highly recommend to [read the documentation](ttps://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-heap-profiler) about the profiler to understand all the pros and cons of using it.
 
 ### An application is using too much CPU
 
@@ -34,11 +40,13 @@ The recommended profiler is the [CPU JS Sampling Profiler](https://github.com/vm
 After getting the exported file, you can go to [speedscope](https://www.speedscope.app/) to analyze it.
 [If we load an example CPU profile](https://www.speedscope.app/#profileURL=https%3A%2F%2Frawcdn.githack.com%2Fvmarchaud%2Fopenprofiling-node%2F475c1f31e5635cd9230c9296549dfbf9765a7464%2Fexamples%2Fprofiles%2Fheavy.cpuprofile) and head to the `Sandwich` panel again, we can see a list of functions sorted by how much CPU they used.
 
-Note that there is two concepts of "time used":
-- `self`: which is the time the CPU took in the function **itself**, without considering calling other functions.
-- `total`: the opposite of `self`, it represent **both the time used by the function and all functions that it called**.
+As the heap profiler that there is two concepts to read the table:
+- `self` time: is the time the CPU took in the function **itself**, without considering calling other functions.
+- `total` time: the opposite of `self`, it represent **both the time used by the function and all functions that it called**.
 
 You should then look for functions that have a high `self` time, which means that their inner code take a lot of time to execute.
+
+We highly recommend to [read the documentation](ttps://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-cpu-profiler) about the profiler to understand all the pros and cons of using it.
 
 
 ## Installation
