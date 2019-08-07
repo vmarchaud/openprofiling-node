@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="460" height="150" src="https://svgshare.com/i/Cte.svg">
+  <img width="460" height="150" src="https://i.imgur.com/bhihJmk.png">
   </a>
 </p>
 
