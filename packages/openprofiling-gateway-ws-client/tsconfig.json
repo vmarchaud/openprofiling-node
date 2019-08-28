@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "outDir": "build",
+    "rootDirs": ["src"],
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "declaration": true,
+    "inlineSourceMap": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "test/**/*.ts"
+  ],
+  "compileOnSave": false
+}

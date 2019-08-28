@@ -74,6 +74,9 @@ export interface ProfilePacket extends Packet {
 
 export interface StopPacket extends Packet {
   type: PacketType.STOP,
+  payload: {
+    type: ProfileType
+  },
   identifier: string
 }
 

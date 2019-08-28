@@ -12,17 +12,15 @@ export * from './models/agent'
 
 export * from './utils/version'
 
-import {
+export {
   ProfileType,
   ProfileStatus,
-  Attributes
+  Attributes,
+  ProfileListener
 } from './models/types'
 
 import * as logger from './common/console-logger'
 
 export {
-  ProfileStatus,
-  ProfileType,
-  Attributes,
   logger
 }
