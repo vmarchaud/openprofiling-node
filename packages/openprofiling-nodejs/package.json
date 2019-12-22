@@ -1,6 +1,6 @@
 {
   "name": "@openprofiling/nodejs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "repository": "openprofiling/openprofiling-node",
@@ -49,7 +49,7 @@
     "all": true
   },
   "dependencies": {
-    "@openprofiling/core": "^0.1.0"
+    "@openprofiling/core": "^0.2.0"
   },
   "devDependencies": {
     "codecov": "^3.4.0",

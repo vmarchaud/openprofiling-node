@@ -1,6 +1,6 @@
 {
   "name": "@openprofiling/gateway-ws-client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "repository": "openprofiling/openprofiling-node",
@@ -59,12 +59,12 @@
     "typescript": "^3.7.4"
   },
   "dependencies": {
-    "@openprofiling/core": "^0.1.0",
-    "@openprofiling/gateway-ws": "^0.1.0",
-    "@openprofiling/inspector-cpu-profiler": "^0.1.0",
-    "@openprofiling/inspector-heap-profiler": "^0.1.0",
-    "@openprofiling/inspector-heapsnapshot": "^0.1.0",
-    "@openprofiling/inspector-trace-events": "^0.1.0",
+    "@openprofiling/core": "^0.2.0",
+    "@openprofiling/gateway-ws": "^0.2.0",
+    "@openprofiling/inspector-cpu-profiler": "^0.2.0",
+    "@openprofiling/inspector-heap-profiler": "^0.2.0",
+    "@openprofiling/inspector-heapsnapshot": "^0.2.0",
+    "@openprofiling/inspector-trace-events": "^0.2.0",
     "ws": "^7.1.0"
   }
 }
