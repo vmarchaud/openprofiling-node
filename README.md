@@ -18,6 +18,8 @@ The library is in alpha stage and the API is subject to change.
 
 I expect that the library will not match everyone use-cases, so I'm asking everyone in this case to open an issue so we can discuss how the toolkit could meet yours.
 
+The NodeJS implementation is currently tested with all recent NodeJS LTS (8, 10, 12) and the most recent major (13).
+
 ## Use cases
 
 ### An application have a memory leak

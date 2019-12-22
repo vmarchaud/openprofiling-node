@@ -12,9 +12,9 @@ steps:
   - uname -r
   - yarn install
   - export PATH=$PATH:./node_modules/.bin/
-  - lerna bootstrap --npm-client yarn
-  - lerna run build --npm-client yarn --ignore "@openprofiling/inspector-trace-events"
-  - lerna run test --npm-client yarn --ignore "@openprofiling/inspector-trace-events"
+  - lerna bootstrap
+  - lerna run build --ignore "@openprofiling/{inspector-trace-events,gateway-ws,gateway-ws-client}"
+  - lerna run test --ignore "@openprofiling/{inspector-trace-events,gateway-ws,gateway-ws-client}"
   environment:
     NODE_ENV: test
     S3_HOST: minio
@@ -43,45 +43,14 @@ steps:
   - uname -r
   - yarn install
   - export PATH=$PATH:./node_modules/.bin/
-  - lerna bootstrap --npm-client yarn
-  - lerna run build --npm-client yarn
-  - lerna run ci --npm-client yarn
+  - lerna bootstrap
+  - lerna run build
+  - lerna run ci
   environment:
     NODE_ENV: test
     S3_HOST: minio
     CODECOV_TOKEN:
       from_secret: coverage_token
-  when:
-    event:
-    - push
-services:
-- name: minio
-  image: minio/minio
-  environment:
-    MINIO_ACCESS_KEY: accessKey
-    MINIO_SECRET_KEY: secretKey
-  entrypoint: [ 'minio', 'server', '/data' ]
-
----
-
-kind: pipeline
-name: node11
-
-steps:
-- name: build
-  image: node:11
-  commands:
-  - node -v
-  - yarn -v
-  - uname -r
-  - yarn install
-  - export PATH=$PATH:./node_modules/.bin/
-  - lerna bootstrap --npm-client yarn
-  - lerna run build --npm-client yarn --ignore "@openprofiling/heapsnapshot"
-  - lerna run test --npm-client yarn --ignore "@openprofiling/heapsnapshot"
-  environment:
-    NODE_ENV: test
-    S3_HOST: minio
   when:
     event:
     - push
@@ -107,9 +76,40 @@ steps:
   - uname -r
   - yarn install
   - export PATH=$PATH:./node_modules/.bin/
-  - lerna bootstrap --npm-client yarn
-  - lerna run build --npm-client yarn --ignore "@openprofiling/inspector-heapsnapshot"
-  - lerna run test --npm-client yarn --ignore "@openprofiling/inspector-heapsnapshot"
+  - lerna bootstrap
+  - lerna run build
+  - lerna run test
+  environment:
+    NODE_ENV: test
+    S3_HOST: minio
+  when:
+    event:
+    - push
+services:
+- name: minio
+  image: minio/minio
+  environment:
+    MINIO_ACCESS_KEY: accessKey
+    MINIO_SECRET_KEY: secretKey
+  entrypoint: [ 'minio', 'server', '/data' ]
+
+---
+
+kind: pipeline
+name: node13
+
+steps:
+- name: build
+  image: node:13
+  commands:
+  - node -v
+  - yarn -v
+  - uname -r
+  - yarn install
+  - export PATH=$PATH:./node_modules/.bin/
+  - lerna bootstrap
+  - lerna run build
+  - lerna run test
   environment:
     NODE_ENV: test
     S3_HOST: minio
@@ -131,15 +131,15 @@ name: linter
 
 steps:
 - name: build
-  image: node:10
+  image: node:12
   commands:
   - node -v
   - yarn -v
   - uname -r
   - yarn install
   - export PATH=$PATH:./node_modules/.bin/
-  - lerna bootstrap --npm-client yarn
-  - lerna run lint --npm-client yarn
+  - lerna bootstrap
+  - lerna run lint
   when:
     event:
     - push
