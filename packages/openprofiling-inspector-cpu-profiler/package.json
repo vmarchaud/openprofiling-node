@@ -1,6 +1,6 @@
 {
   "name": "@openprofiling/inspector-cpu-profiler",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "repository": "openprofiling/openprofiling-node",
@@ -58,7 +58,7 @@
     "typescript": "^3.7.4"
   },
   "dependencies": {
-    "@openprofiling/core": "^0.1.0"
+    "@openprofiling/core": "^0.2.0"
   },
-  "gitHead": "af672673dec8a0ce585943651048a50fa5d84f82"
+  "gitHead": "a8098997633d0ffefed78ec7b4c12df64e47f3d5"
 }
