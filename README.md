@@ -139,6 +139,7 @@ OpenProfiling aims to be vendor-neutral and can push profiling data to any backe
 
 - [File exporter](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-exporter-file)
 - [S3 exporter](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-exporter-s3)
+- [Google Cloud Storage exporter](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-exporter-gcs)
 
 ## Versioning
 

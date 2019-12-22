@@ -18,6 +18,7 @@ steps:
   environment:
     NODE_ENV: test
     S3_HOST: minio
+    GCS_HOST: gcs:4443
   when:
     event:
     - push
@@ -28,6 +29,8 @@ services:
     MINIO_ACCESS_KEY: accessKey
     MINIO_SECRET_KEY: secretKey
   entrypoint: [ 'minio', 'server', '/data' ]
+- name: gcs
+  image: fsouza/fake-gcs-server
 
 ---
 
@@ -45,12 +48,11 @@ steps:
   - export PATH=$PATH:./node_modules/.bin/
   - lerna bootstrap
   - lerna run build
-  - lerna run ci
+  - lerna run test
   environment:
     NODE_ENV: test
     S3_HOST: minio
-    CODECOV_TOKEN:
-      from_secret: coverage_token
+    GCS_HOST: gcs:4443
   when:
     event:
     - push
@@ -61,6 +63,8 @@ services:
     MINIO_ACCESS_KEY: accessKey
     MINIO_SECRET_KEY: secretKey
   entrypoint: [ 'minio', 'server', '/data' ]
+- name: gcs
+  image: fsouza/fake-gcs-server
 
 ---
 
@@ -78,10 +82,13 @@ steps:
   - export PATH=$PATH:./node_modules/.bin/
   - lerna bootstrap
   - lerna run build
-  - lerna run test
+  - lerna run ci
   environment:
     NODE_ENV: test
     S3_HOST: minio
+    GCS_HOST: gcs:4443
+    CODECOV_TOKEN:
+      from_secret: coverage_token
   when:
     event:
     - push
@@ -92,6 +99,8 @@ services:
     MINIO_ACCESS_KEY: accessKey
     MINIO_SECRET_KEY: secretKey
   entrypoint: [ 'minio', 'server', '/data' ]
+- name: gcs
+  image: fsouza/fake-gcs-server
 
 ---
 
@@ -113,6 +122,7 @@ steps:
   environment:
     NODE_ENV: test
     S3_HOST: minio
+    GCS_HOST: gcs:4443
   when:
     event:
     - push
@@ -123,6 +133,8 @@ services:
     MINIO_ACCESS_KEY: accessKey
     MINIO_SECRET_KEY: secretKey
   entrypoint: [ 'minio', 'server', '/data' ]
+- name: gcs
+  image: fsouza/fake-gcs-server
 
 ---
 
