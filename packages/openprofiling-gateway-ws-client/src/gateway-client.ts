@@ -75,9 +75,11 @@ export class GatewayProfilingAgent implements ProfileListener {
       // then process the PacketType
       switch (parsed.type) {
         case PacketType.START: {
+          // tslint:disable-next-line
           return this.startProfiler(parsed as StartPacket)
         }
         case PacketType.STOP: {
+          // tslint:disable-next-line
           return this.stopProfiler(parsed as StopPacket)
         }
       }
