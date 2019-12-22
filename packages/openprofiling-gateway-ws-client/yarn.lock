@@ -90,11 +90,6 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@openprofiling/core@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@openprofiling/core/-/core-0.1.0.tgz#bab1fa3dee1f689200b5b881be6d7cc1792a6a33"
-  integrity sha512-JtYFETbljSUfY8b0jhc33N2OyEm+jKSDi3ZS5iNtHHYGqDQuZFpfjk2UGbt/VZ0FpSwb5xm59zJ5TEMTIAkNfA==
-
 "@types/events@*":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
@@ -1517,10 +1512,10 @@ tsutils@^3.0.0:
   dependencies:
     tslib "^1.8.1"
 
-typescript@^3.5.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.1.tgz#ba72a6a600b2158139c5dd8850f700e231464202"
-  integrity sha512-64HkdiRv1yYZsSe4xC1WVgamNigVYjlssIoaH2HcZF0+ijsk5YK2g0G34w9wJkze8+5ow4STd22AynfO6ZYYLw==
+typescript@^3.7.4:
+  version "3.7.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.4.tgz#1743a5ec5fef6a1fa9f3e4708e33c81c73876c19"
+  integrity sha512-A25xv5XCtarLwXpcDNZzCGvW2D1S3/bACratYBx2sax8PefsFhlYmkQicKHvpYflFS8if4zne5zT5kpJ7pzuvw==
 
 uglify-js@^3.1.4:
   version "3.6.0"
