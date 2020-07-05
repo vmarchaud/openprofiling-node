@@ -25,8 +25,7 @@
     "node": ">=10.0.0"
   },
   "files": [
-    "build/src/**/*.js",
-    "build/src/**/*.d.ts",
+    "build/",
     "doc",
     "CHANGELOG.md",
     "LICENSE",
