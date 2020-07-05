@@ -1,6 +1,6 @@
 {
   "name": "@openprofiling/exporter-s3",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "repository": "openprofiling/openprofiling-node",
@@ -58,7 +58,7 @@
     "typescript": "^3.7.4"
   },
   "dependencies": {
-    "@openprofiling/core": "^0.2.0",
+    "@openprofiling/core": "^0.2.1",
     "@smcloudstore/generic-s3": "^0.2.0",
     "smcloudstore": "^0.2.1"
   },
