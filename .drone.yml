@@ -105,11 +105,11 @@ services:
 ---
 
 kind: pipeline
-name: node13
+name: node14
 
 steps:
 - name: build
-  image: node:13
+  image: node:14
   commands:
   - node -v
   - yarn -v
