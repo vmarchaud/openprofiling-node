@@ -12,7 +12,6 @@ export interface GcloudStorageExporterConfig extends ExporterOptions, StorageOpt
 export const fileExtensions = {
   'HEAP_PROFILE': 'heapprofile',
   'CPU_PROFILE': 'cpuprofile',
-  'HEAP_SNAPSHOT': 'heapsnapshot',
   'PERFECTO': 'json'
 }
 

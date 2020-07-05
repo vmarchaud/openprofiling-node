@@ -117,13 +117,6 @@
   dependencies:
     "@openprofiling/core" "^0.2.0"
 
-"@openprofiling/inspector-heapsnapshot@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@openprofiling/inspector-heapsnapshot/-/inspector-heapsnapshot-0.2.0.tgz#90b494da08d2f92cc14a448faf357bb69fa0dca5"
-  integrity sha512-eFlPbClil0kN3fKfQCq/IQyMeJpNC6D/k4E6kxDbM3vJdZ6yvOHy6rpWUmtv0hVog8Jq52Ll42zvSMpJK/zCow==
-  dependencies:
-    "@openprofiling/core" "^0.2.0"
-
 "@openprofiling/inspector-trace-events@^0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@openprofiling/inspector-trace-events/-/inspector-trace-events-0.2.0.tgz#d349fbbdd013e7395a99228228f78365ad1063d2"

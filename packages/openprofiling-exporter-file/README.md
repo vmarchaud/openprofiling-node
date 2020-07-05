@@ -7,8 +7,8 @@ The file name will follow the following format:
 const name = `${profile.kind}-${profile.startTime.toISOString()}.${profile.extension}`
 ```
 
-Where the profile kind can be: `HEAP_PROFILE`, `CPU_PROFILE` or `HEAP_SNAPSHOT`
-And the extension can be either: `heaprofile`, `cpuprofile` or `heapsnapshot`
+Where the profile kind can be: `HEAP_PROFILE`, `CPU_PROFILE` or `PERFECTO`
+And the extension can be either: `heaprofile`, `cpuprofile` or `json`
 
 ### Advantages
 

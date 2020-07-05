@@ -18,7 +18,7 @@ The library is in alpha stage and the API is subject to change.
 
 I expect that the library will not match everyone use-cases, so I'm asking everyone in this case to open an issue so we can discuss how the toolkit could meet yours.
 
-The NodeJS implementation is currently tested with all recent NodeJS LTS (8, 10, 12) and the most recent major (13).
+The NodeJS implementation is currently tested with all recent NodeJS LTS (10, 12) and the most recent major (14).
 
 ## Use cases
 
@@ -130,7 +130,6 @@ Profilers are the implementation that collect profiling data from different sour
 
 - [CPU Sampling JS Profiler](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-cpu-profiler)
 - [Heap Sampling Profiler](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-heap-profiler)
-- [Heap Snapshot](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-heapsnapshot)
 - [Trace Events](https://github.com/vmarchaud/openprofiling-node/tree/master/packages/openprofiling-inspector-trace-events)
 
 ## Exporters

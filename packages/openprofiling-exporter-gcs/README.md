@@ -7,8 +7,8 @@ It will just write the profile to a remote S3-compatible server, the file name i
 const name = `${profile.kind}-${profile.startTime.toISOString()}.${profile.extension}`
 ```
 
-Where the profile kind can be: `HEAP_PROFILE`, `CPU_PROFILE` or `HEAP_SNAPSHOT`
-And the extension can be either: `heaprofile`, `cpuprofile` or `heapsnapshot`
+Where the profile kind can be: `HEAP_PROFILE`, `CPU_PROFILE` or `PERFECTO`
+And the extension can be either: `heaprofile`, `cpuprofile` or `json`
 
 ### Advantages
 

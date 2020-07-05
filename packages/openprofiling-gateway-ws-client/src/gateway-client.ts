@@ -5,7 +5,6 @@ import { CoreAgent, ProfileListener, Profile, ProfileType, BaseProfiler, Trigger
 import { AgentMetadata, StopPacket, StartPacket, Packet, PacketType, HelloPacket } from '@openprofiling/gateway-ws'
 import { InspectorCPUProfiler } from '@openprofiling/inspector-cpu-profiler'
 import { InspectorHeapProfiler } from '@openprofiling/inspector-heap-profiler'
-import { InspectorHeapSnapshot } from '@openprofiling/inspector-heapsnapshot'
 import { TraceEventsProfiler } from '@openprofiling/inspector-trace-events'
 
 type AgentConfig = {
@@ -49,7 +48,6 @@ export class GatewayProfilingAgent implements ProfileListener {
       this.started = true
       this.profilers.set(ProfileType.CPU_PROFILE, new InspectorCPUProfiler())
       this.profilers.set(ProfileType.HEAP_PROFILE, new InspectorHeapProfiler())
-      this.profilers.set(ProfileType.HEAP_SNAPSHOT, new InspectorHeapSnapshot())
       this.profilers.set(ProfileType.PERFECTO, new TraceEventsProfiler())
       for (let profiler of this.profilers.values()) {
         profiler.enable(this.agent)
