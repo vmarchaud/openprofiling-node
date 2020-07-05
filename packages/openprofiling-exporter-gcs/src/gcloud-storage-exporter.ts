@@ -43,12 +43,15 @@ export class GcloudStorageExporter extends BaseExporter {
     const extension = fileExtensions[profile.kind]
     const filename = `${profile.kind.toLowerCase()}-${profile.startTime.toISOString()}.${extension}`
     const metadata = Object.assign({
-      kind: profile.kind,
+      kind: profile.kind.toString(),
       startTime: profile.startTime.toISOString(),
       endTime: profile.endTime.toISOString(),
-      duration: profile.duration,
-      status: profile.status
-    }, profile.attributes)
+      duration: profile.duration.toString(),
+      status: profile.status.toString()
+    }, Object.entries(profile.attributes).reduce((agg, [key, value]) => {
+      agg[key] = value.toString()
+      return agg
+    }, {}))
     // ensure the bucket exists
     const bucket = await this.ensureBucket()
     await this.upload(bucket, filename, profile.data, { metadata })
