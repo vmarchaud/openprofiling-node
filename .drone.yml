@@ -1,39 +1,3 @@
----
-
-kind: pipeline
-name: node8
-
-steps:
-- name: build
-  image: node:8
-  commands:
-  - node -v
-  - yarn -v
-  - uname -r
-  - yarn install
-  - export PATH=$PATH:./node_modules/.bin/
-  - lerna bootstrap
-  - lerna run build --ignore "@openprofiling/{inspector-trace-events,gateway-ws,gateway-ws-client}"
-  - lerna run test --ignore "@openprofiling/{inspector-trace-events,gateway-ws,gateway-ws-client}"
-  environment:
-    NODE_ENV: test
-    S3_HOST: minio
-    GCS_HOST: gcs:4443
-  when:
-    event:
-    - push
-services:
-- name: minio
-  image: minio/minio
-  environment:
-    MINIO_ACCESS_KEY: accessKey
-    MINIO_SECRET_KEY: secretKey
-  entrypoint: [ 'minio', 'server', '/data' ]
-- name: gcs
-  image: fsouza/fake-gcs-server
-
----
-
 kind: pipeline
 name: node10
 
