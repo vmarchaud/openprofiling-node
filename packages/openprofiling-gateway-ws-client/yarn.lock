@@ -90,6 +90,47 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
+"@openprofiling/core@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@openprofiling/core/-/core-0.2.0.tgz#29bea7e9fb4811642128aa86dc283ffb7015656c"
+  integrity sha512-HJXYBl7WROcdTbAGfaoVPWXEMvRH9ToqMDu/YBu4qPWwqIxRWnkCV8TqkrOIh60UdD88cgQ3LSCdxviytsUh/A==
+
+"@openprofiling/gateway-ws@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@openprofiling/gateway-ws/-/gateway-ws-0.2.0.tgz#4ed56001c0930869ae502a0e55292136a0531260"
+  integrity sha512-pSNDzUeQrK0eoArqL3ZYKVmHnKlmMalAt0+fvvEipXy46v/P+6CXriQoUvStLdV4DX7ecUfLDCgHXTlsmHqOZw==
+  dependencies:
+    "@openprofiling/core" "^0.2.0"
+    ws "^7.1.0"
+
+"@openprofiling/inspector-cpu-profiler@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@openprofiling/inspector-cpu-profiler/-/inspector-cpu-profiler-0.2.0.tgz#8871eb62ade1f049566ec8333060999986b7a8ed"
+  integrity sha512-1cgQ6yAarnC5syuEo5MFY36VglXAMSsM1ZJsxYV5wPSKOIQ4HT9ERzlR0d8TFi34RDYY1s4hOtoKVmOty5D1Vg==
+  dependencies:
+    "@openprofiling/core" "^0.2.0"
+
+"@openprofiling/inspector-heap-profiler@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@openprofiling/inspector-heap-profiler/-/inspector-heap-profiler-0.2.0.tgz#9611e407fbe87c87eba478f38d7de10391e7657b"
+  integrity sha512-W9FJh49CF5Vx6L8zbLpVt/djcZNsWvki57AtQaud6Nd6MlRuva4BvxlLL4KcLyFHXVLa7qwJ2n9laN84bIrYaQ==
+  dependencies:
+    "@openprofiling/core" "^0.2.0"
+
+"@openprofiling/inspector-heapsnapshot@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@openprofiling/inspector-heapsnapshot/-/inspector-heapsnapshot-0.2.0.tgz#90b494da08d2f92cc14a448faf357bb69fa0dca5"
+  integrity sha512-eFlPbClil0kN3fKfQCq/IQyMeJpNC6D/k4E6kxDbM3vJdZ6yvOHy6rpWUmtv0hVog8Jq52Ll42zvSMpJK/zCow==
+  dependencies:
+    "@openprofiling/core" "^0.2.0"
+
+"@openprofiling/inspector-trace-events@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@openprofiling/inspector-trace-events/-/inspector-trace-events-0.2.0.tgz#d349fbbdd013e7395a99228228f78365ad1063d2"
+  integrity sha512-QezMFjc6/HcMrepkqjhhDtLoV7Vs2MigWZh6ofMAa4YvswNEne6JqZIn5+XmrVHw1bmSSN1JpFj4D9JYmCO6vA==
+  dependencies:
+    "@openprofiling/core" "^0.2.0"
+
 "@types/events@*":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
