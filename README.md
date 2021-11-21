@@ -9,6 +9,7 @@
 [![codecov](https://codecov.io/gh/vmarchaud/openprofiling-node/branch/master/graph/badge.svg)](https://codecov.io/gh/vmarchaud/openprofiling-node)
 [![License](https://img.shields.io/npm/l/@opencensus/core.svg)](https://img.shields.io/npm/l/@opencensus/core.svg)
 
+**NOTE: This project is deprecated, OpenTelemetry [is discusting adding support for profiling](https://github.com/open-telemetry/oteps/issues/139)** 
 
 OpenProfiling is a toolkit for collecting profiling data from production workload safely.
 
